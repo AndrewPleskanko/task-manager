@@ -1,0 +1,24 @@
+.board {
+  display: flex;
+  gap: 20px;
+}
+
+.task-column {
+  width: 200px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  padding: 10px;
+  min-height: 200px;
+}
+
+.task {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: grab;
+}
+
+.task:active {
+  cursor: grabbing;
+}

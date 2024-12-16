@@ -1,0 +1,32 @@
+<h2>JSON Formatter</h2>
+
+<div class="json-formatter">
+  <div class="formatter-container">
+    <div class="code-editor">
+      <div class="line-numbers" #lineNumbersInput>
+        <div *ngFor="let line of inputLineNumbers">{{ line }}</div>
+      </div>
+      <textarea
+        [(ngModel)]="jsonInput"
+        (input)="onInput()"
+        placeholder="Enter JSON here"
+        class="json-input"
+        #jsonInputTextarea>
+      </textarea>
+    </div>
+
+    <div class="buttons">
+      <button type="button" pButton label="Beautify" (click)="formatJSON()"></button>
+      <button type="button" pButton label="Minify" (click)="minifyJSON()"></button>
+      <button type="button" pButton label="Validate" (click)="validateJSON()"></button>
+    </div>
+
+    <div class="code-editor">
+      <div *ngIf="!isError" class="line-numbers" #lineNumbersOutput>
+        <div *ngFor="let line of outputLineNumbers">{{ line }}</div>
+      </div>
+      <div #jsonOutputDiv *ngIf="!isError" class="json-output" [innerHTML]="formattedJson"></div>
+      <div *ngIf="isError" class="error">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>

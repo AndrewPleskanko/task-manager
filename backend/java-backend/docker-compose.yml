@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - test-db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=andrew
+      - DB_USER=andrew
+      - DB_PASSWORD=12345678
+    networks:
+      - my-network
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: andrew
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: registration
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+  test-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: integration-tests-db
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - my-network
+
+volumes:
+  db-data:
+  pg-data:
+
+

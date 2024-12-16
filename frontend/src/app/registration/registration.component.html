@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4">Registration Form</h1>
+      <form [formGroup]="registrationForm" (ngSubmit)="register()">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username" required>
+          <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched" class="text-danger">
+            Username is required and must be between 3 and 20 characters.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password" required>
+          <div *ngIf="registrationForm.get('password')?.errors?.['missingUpperCase']" class="text-danger">Password must contain at least one uppercase letter.</div>
+          <div *ngIf="registrationForm.get('password')?.errors?.['missingLowerCase']" class="text-danger">Password must contain at least one lowercase letter.</div>
+          <div *ngIf="registrationForm.get('password')?.errors?.['missingNumeric']" class="text-danger">Password must contain at least one number.</div>
+          <div *ngIf="registrationForm.get('password')?.errors?.['required']" class="text-danger">Password is required.</div>
+          <div *ngIf="registrationForm.get('password')?.errors?.['minlength']" class="text-danger">Password must be at least 6 characters.</div>
+          <div *ngIf="registrationForm.get('password')?.errors?.['maxlength']" class="text-danger">Password must not exceed 40 characters.</div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter your email" required>
+          <div *ngIf="registrationForm.get('email')?.errors?.['required'] && registrationForm.get('email')?.touched" class="text-danger">Email is required.</div>
+          <div *ngIf="registrationForm.get('email')?.errors?.['email'] && registrationForm.get('email')?.touched" class="text-danger">Email must be a valid email address.</div>
+          <div *ngIf="registrationForm.get('email')?.errors?.['maxlength'] && registrationForm.get('email')?.touched" class="text-danger">Email must not exceed 40 characters.</div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="registrationForm.invalid">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
