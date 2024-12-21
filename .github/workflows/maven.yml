@@ -30,7 +30,7 @@ jobs:
 
         # Build authorization service
       - name: Build Authorization Service with Maven
-        run: mvn -B package --file authorization-service/pom.xml
+        run: mvn -B package --file authentication-service/pom.xml
 
         # Build task service
       - name: Build Task Service with Maven

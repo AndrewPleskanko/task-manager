@@ -4,7 +4,6 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {LoginComponent} from "./login/login.component";
 import {TokenHandlerComponent} from "./auth/token-handler/token-handler.component";
 import {TaskBoardComponent} from "./task-board/task-board.component";
-import {JsonFormatterComponent} from "./json-formatter/json-formatter.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -13,7 +12,6 @@ export const routes: Routes = [
   {path: 'token-handler', component: TokenHandlerComponent},
   {path: 'login', component: LoginComponent},
   {path: 'task-board',component: TaskBoardComponent},
-  {path: 'json', component: JsonFormatterComponent},
 ];
 
 export class AppRoutingModule {

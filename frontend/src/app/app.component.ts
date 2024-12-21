@@ -3,7 +3,6 @@ import {RouterLink, RouterOutlet} from '@angular/router';
 import {FooterComponent} from "./footer/footer.component";
 import {HeaderComponent} from "./header/header.component";
 import {CommonModule} from "@angular/common";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-root',
@@ -15,10 +14,10 @@ import {ToastrService} from "ngx-toastr";
 export class AppComponent  implements OnInit {
   title = 'frontend';
 
-  constructor(private toastr: ToastrService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.toastr.success('Toastr is working!', 'Success');
+
   }
 }
 

@@ -13,11 +13,11 @@ import {map} from "rxjs";
 export class HomeComponent {
   errorMessage: string;
   userList: User[];
-  userListHtml = ''; // This will hold the HTML string
+  userListHtml = '';
 
   constructor(private userService: UserService) {
     this.errorMessage = '';
-    this.userList = []; // initialize userList as an empty array
+    this.userList = [];
   }
 
   getList() {
@@ -28,8 +28,7 @@ export class HomeComponent {
         this.userList = userList;
         this.userListHtml = userList.map(user => `<li>User: ${user.username}</li>`).join('');
       },
-      (error: any) => {
-        console.log(error);
+      () => {
         this.errorMessage = 'Only admin has access to this functionality.';
       }
     );

@@ -3,6 +3,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { API_CONFIG } from '../config/api.config';
 import { TokenService } from './token.service';
+import {User} from "../entities/User";
+
+interface OAuthResponse {
+  accessToken: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +17,12 @@ export class UserService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, user);
+  register(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/add`, user);
   }
 
-  login(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/authenticate`, user);
+  login(user: User): Observable<OAuthResponse> {
+    return this.http.post<OAuthResponse>(`${this.apiUrl}/authenticate`, user);
   }
 
   getList() {

@@ -23,15 +23,13 @@ interface OAuthResponse {
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loginError: string = '';
-  successMessage: string = '';
+  loginError = '';
+  successMessage = '';
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private authService: AuthService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private userService: UserService,
+              private router: Router,
+              private authService: AuthService,
+              private route: ActivatedRoute) {
     this.loginForm = new FormGroup({
       password: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
@@ -41,13 +39,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const token = params['token'];
-      console.log("Token from URL:", token);
       if (token) {
         localStorage.setItem('token', token);
         this.router.navigate(['/home']).then(() => {
           this.successMessage = 'You have successfully logged in!';
-        }).catch((error) => {
-          console.error(error);
+        }).catch(() => {
           this.loginError = 'Navigation failed after login';
         });
       }
@@ -63,8 +59,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', data.accessToken);
           this.router.navigate(['/home']).then(() => {
             this.successMessage = 'You have successfully logged in!';
-          }).catch((error) => {
-            console.error(error);
+          }).catch(() => {
             this.loginError = 'Navigation failed after login';
           });
         },
