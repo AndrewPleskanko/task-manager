@@ -1,36 +1,6 @@
 version: '3.8'
 
 services:
-  web:
-    build:
-      context: java-backend
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-      - test-db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USERNAME=andrew
-      - DB_USER=andrew
-      - DB_PASSWORD=12345678
-    networks:
-      - my-network
-
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: andrew
-      POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: registration
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - my-network
 
   test-db:
     image: postgres:16-alpine
@@ -42,6 +12,21 @@ services:
       - pg-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+    networks:
+      - my-network
+
+  consul:
+    image: consul:1.10.4
+    ports:
+      - "8500:8500"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
     networks:
       - my-network
 

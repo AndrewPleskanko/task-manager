@@ -4,7 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.profitsoft.mailsender.entity.EmailMessage;
-import com.profitsoft.mailsender.services.inrerfaces.EmailService;
+import com.profitsoft.mailsender.service.inrerfaces.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

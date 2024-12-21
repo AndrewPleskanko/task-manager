@@ -3,7 +3,7 @@ package org.example.authentication.handler;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.example.authentication.exceptions.BaseException;
+import org.example.authentication.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

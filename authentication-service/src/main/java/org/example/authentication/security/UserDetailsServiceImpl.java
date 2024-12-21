@@ -1,7 +1,7 @@
 package org.example.authentication.security;
 
 import org.example.authentication.entity.User;
-import org.example.authentication.repositories.UserRepository;
+import org.example.authentication.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
