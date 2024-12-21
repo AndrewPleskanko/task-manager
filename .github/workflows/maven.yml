@@ -10,9 +10,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -20,38 +20,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-      # Build authorization service
-    - name: Build Authorization Service with Maven
-      run: mvn -B package --file authorization-service/pom.xml
+        # Build authorization service
+      - name: Build Authorization Service with Maven
+        run: mvn -B package --file authorization-service/pom.xml
 
-      # Build task service
-    - name: Build Task Service with Maven
-      run: mvn -B package --file task-service/pom.xml
+        # Build task service
+      - name: Build Task Service with Maven
+        run: mvn -B package --file task-service/pom.xml
 
-      # Build authentication service
-    - name: Build Authentication Service with Maven
-      run: mvn -B package --file authentication-service/pom.xml
-
-      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph for Authorization Service
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-      with:
-        directory: authorization-service
-
-    - name: Update dependency graph for Task Service
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-      with:
-        directory: task-service
-
-    - name: Update dependency graph for Authentication Service
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-      with:
-        directory: authentication-service
+        # Build gateway service
+      - name: Build Gateway Service with Maven
+        run: mvn -B package --file gateway-service/pom.xml
