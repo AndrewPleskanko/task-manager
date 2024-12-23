@@ -10,7 +10,7 @@ spring:
           predicates:
             - Path=/api/tasks/
 
-        - id: user-service
+        - id: authentication-service
           uri: http://localhost:8082
           predicates:
-            - Path=/api/users/
+            - Path=/api/auth/

@@ -1,5 +1,7 @@
 ## About
 
+[![CI Pipeline](https://github.com/AndrewPleskanko/jira-progect/actions/workflows/maven.yml/badge.svg)](https://github.com/AndrewPleskanko/jira-progect/actions)
+
 This project is a simple RESTful API for managing users. It provides endpoints for creating, updating, deleting, and
 retrieving users. This project is an email microservice in Java. It sends email notifications and tracks their delivery status.
 Emails are sent reliably, even if the email server is temporarily unavailable.

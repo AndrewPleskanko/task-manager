@@ -1,16 +1,7 @@
 spring:
   application:
+    port: 8082
     name: authentication
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        instance-id: authentication:instance-1
-        service-name: authentication
-        health-check-path: /actuator/health
-        health-check-url: http://localhost:8080/actuator/health
-        prefer-ip-address: true
 
   datasource:
     url: jdbc:postgresql://${DB_HOST}/${DB_NAME}

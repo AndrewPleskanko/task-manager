@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.1</version>
         <relativePath/>
     </parent>
     <groupId>com.profitsoft</groupId>
@@ -112,7 +112,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
-                    <configLocation>codestyle/checkstyle.xml</configLocation>
+                    <configLocation>../codestyle/checkstyle.xml</configLocation>
                     <violationSeverity>warning</violationSeverity>
                 </configuration>
                 <executions>
@@ -180,7 +180,7 @@
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>
                     <rulesets>
-                        <ruleset>codestyle/pmd.xml</ruleset>
+                        <ruleset>../codestyle/pmd.xml</ruleset>
                     </rulesets>
                 </configuration>
                 <executions>
