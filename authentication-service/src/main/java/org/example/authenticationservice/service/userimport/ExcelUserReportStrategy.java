@@ -25,7 +25,7 @@ public class ExcelUserReportStrategy implements UserReportStrategy {
      *
      * @param users the list of users to include in the report
      * @return the generated report as a byte array
-     * @throws UnsupportedUserReportTypeException if an error occurs while generating the report
+     * @throws UserReportGenerationException if an error occurs while generating the report
      */
     @Override
     public byte[] generateReport(List<User> users) {

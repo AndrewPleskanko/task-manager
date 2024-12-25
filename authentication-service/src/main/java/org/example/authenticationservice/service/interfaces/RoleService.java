@@ -5,7 +5,6 @@ import org.example.authenticationservice.entity.Role;
 
 import java.util.List;
 
-
 public interface RoleService {
     Role createRole(RoleDto roleDto);
 

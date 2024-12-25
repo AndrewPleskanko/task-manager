@@ -39,3 +39,7 @@ jobs:
         # Build gateway service
       - name: Build Gateway Service with Maven
         run: mvn -B package --file gateway-service/pom.xml
+
+      # Build mail service
+      - name: Build Gateway Service with Maven
+        run: mvn -B package --file mail-sender/pom.xml

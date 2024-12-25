@@ -1,14 +1,13 @@
-package com.profitsoft.mailsender.service;
+package com.example.mailsender.service;
 
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 @Slf4j
 @Testcontainers

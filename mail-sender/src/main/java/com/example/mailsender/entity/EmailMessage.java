@@ -1,14 +1,13 @@
-package com.profitsoft.mailsender.entity;
+package com.example.mailsender.entity;
 
-import java.time.LocalDate;
-
+import com.example.mailsender.enums.MessageSendingStatus;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import com.profitsoft.mailsender.enums.MessageSendingStatus;
-import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 @Document(indexName = "email_message")

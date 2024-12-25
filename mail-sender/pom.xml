@@ -8,7 +8,7 @@
         <version>3.3.1</version>
         <relativePath/>
     </parent>
-    <groupId>com.profitsoft</groupId>
+    <groupId>com.example</groupId>
     <artifactId>mail-sender</artifactId>
     <version>3.0.0-SNAPSHOT</version>
     <name>mail-sender</name>
@@ -136,12 +136,12 @@
                 <version>0.8.11</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/profitsoft/mailsender/entity/**</exclude>
-                        <exclude>com/profitsoft/mailsender/enums/**</exclude>
-                        <exclude>com/profitsoft/mailsender/consumer/**</exclude>
-                        <exclude>com/profitsoft/mailsender/job/**</exclude>
-                        <exclude>com/profitsoft/mailsender/config/**</exclude>
-                        <exclude>com/profitsoft/mailsender/MailSenderApplication.class</exclude>
+                        <exclude>com/example/mailsender/entity/**</exclude>
+                        <exclude>com/example/mailsender/enums/**</exclude>
+                        <exclude>com/example/mailsender/consumer/**</exclude>
+                        <exclude>com/example/mailsender/job/**</exclude>
+                        <exclude>com/example/mailsender/config/**</exclude>
+                        <exclude>com/example/mailsender/MailSenderApplication.class</exclude>
                         <includeNoLocationClasses>true</includeNoLocationClasses>
                     </excludes>
                     <rules>
@@ -175,7 +175,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.21.0</version>
+                <version>3.26.0</version>
                 <configuration>
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>

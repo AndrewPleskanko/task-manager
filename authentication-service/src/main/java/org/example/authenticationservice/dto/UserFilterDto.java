@@ -1,7 +1,7 @@
 package org.example.authenticationservice.dto;
 
-import org.example.authenticationservice.enums.UserReportType;
 import lombok.Data;
+import org.example.authenticationservice.enums.UserReportType;
 
 @Data
 public class UserFilterDto {

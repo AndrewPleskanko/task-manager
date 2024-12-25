@@ -1,4 +1,4 @@
-package com.profitsoft.mailsender.config;
+package com.example.mailsender.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

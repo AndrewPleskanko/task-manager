@@ -1,5 +1,40 @@
 package org.example.authenticationservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.authenticationservice.dto.RoleDto;
+import org.example.authenticationservice.dto.UserDto;
+import org.example.authenticationservice.entity.User;
+import org.example.authenticationservice.mapper.RoleMapper;
+import org.example.authenticationservice.mapper.UserMapper;
+import org.example.authenticationservice.security.JwtAuthEntryPoint;
+import org.example.authenticationservice.security.JwtGenerator;
+import org.example.authenticationservice.security.UserDetailsServiceImpl;
+import org.example.authenticationservice.security.WebSecurityConfig;
+import org.example.authenticationservice.service.AuthenticationServiceImpl;
+import org.example.authenticationservice.service.UserServiceImpl;
+import org.example.authenticationservice.utils.RoleTestUtils;
+import org.example.authenticationservice.utils.UserTestUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -17,42 +52,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.example.authenticationservice.dto.RoleDto;
-import org.example.authenticationservice.dto.UserDto;
-import org.example.authenticationservice.entity.User;
-import org.example.authenticationservice.mapper.RoleMapper;
-import org.example.authenticationservice.mapper.UserMapper;
-import org.example.authenticationservice.security.JwtAuthEntryPoint;
-import org.example.authenticationservice.security.JwtGenerator;
-import org.example.authenticationservice.security.UserDetailsServiceImpl;
-import org.example.authenticationservice.security.WebSecurityConfig;
-import org.example.authenticationservice.service.AuthenticationServiceImpl;
-import org.example.authenticationservice.service.UserServiceImpl;
-import org.example.authenticationservice.utils.RoleTestUtils;
-import org.example.authenticationservice.utils.UserTestUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @WebMvcTest(AuthenticationController.class)
 @Import({WebSecurityConfig.class, JwtGenerator.class, JwtAuthEntryPoint.class, AuthenticationServiceImpl.class})
 public class AuthenticationControllerIntegrationTest {
@@ -61,7 +60,7 @@ public class AuthenticationControllerIntegrationTest {
     private UserDto userDtoAdmin;
     private List<UserDto> userListDto;
 
-    @MockBean
+    @Mock
     private AuthenticationProvider authenticationProvider;
 
     @Autowired
@@ -70,10 +69,10 @@ public class AuthenticationControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     UserDetailsServiceImpl userDetailsService;
 
-    @MockBean
+    @Mock
     UserServiceImpl userService;
 
     RoleDto roleUser;

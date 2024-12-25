@@ -1,6 +1,6 @@
-package com.profitsoft.mailsender.service.inrerfaces;
+package com.example.mailsender.service.inrerfaces;
 
-import com.profitsoft.mailsender.entity.EmailMessage;
+import com.example.mailsender.entity.EmailMessage;
 
 public interface EmailService {
     void sendEmail(EmailMessage emailMessage);

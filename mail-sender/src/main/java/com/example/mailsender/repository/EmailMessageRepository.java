@@ -1,11 +1,10 @@
-package com.profitsoft.mailsender.repository;
+package com.example.mailsender.repository;
 
-import java.util.List;
-
+import com.example.mailsender.entity.EmailMessage;
+import com.example.mailsender.enums.MessageSendingStatus;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import com.profitsoft.mailsender.entity.EmailMessage;
-import com.profitsoft.mailsender.enums.MessageSendingStatus;
+import java.util.List;
 
 public interface EmailMessageRepository extends ElasticsearchRepository<EmailMessage, String> {
     List<EmailMessage> findByStatus(MessageSendingStatus status);
