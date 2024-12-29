@@ -1,19 +1,20 @@
 package com.example.mailsender.service;
 
-import com.example.mailsender.entity.EmailMessage;
-import com.example.mailsender.enums.MessageSendingStatus;
-import com.example.mailsender.repository.EmailMessageRepository;
-import com.example.mailsender.service.inrerfaces.EmailService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.example.mailsender.entity.EmailMessage;
+import com.example.mailsender.enums.MessageSendingStatus;
+import com.example.mailsender.repository.EmailMessageRepository;
+import com.example.mailsender.service.inrerfaces.EmailService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for sending emails.

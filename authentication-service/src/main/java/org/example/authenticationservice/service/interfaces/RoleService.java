@@ -1,9 +1,9 @@
 package org.example.authenticationservice.service.interfaces;
 
+import java.util.List;
+
 import org.example.authenticationservice.dto.RoleDto;
 import org.example.authenticationservice.entity.Role;
-
-import java.util.List;
 
 public interface RoleService {
     Role createRole(RoleDto roleDto);

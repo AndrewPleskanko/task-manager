@@ -1,11 +1,12 @@
 package com.example.mailsender.consumer;
 
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
 import com.example.mailsender.entity.EmailMessage;
 import com.example.mailsender.service.inrerfaces.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 /**
  * Consumer responsible for processing user deactivation messages from Kafka.

@@ -1,9 +1,15 @@
 package com.example.mailsender.service;
 
-import com.example.mailsender.MailSenderApplication;
-import com.example.mailsender.entity.EmailMessage;
-import com.example.mailsender.enums.MessageSendingStatus;
-import com.example.mailsender.repository.EmailMessageRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,15 +24,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
+import com.example.mailsender.MailSenderApplication;
+import com.example.mailsender.entity.EmailMessage;
+import com.example.mailsender.enums.MessageSendingStatus;
+import com.example.mailsender.repository.EmailMessageRepository;
 
 @SpringBootTest
 @ContextConfiguration(classes = {MailSenderApplication.class, BaseServiceTest.class})

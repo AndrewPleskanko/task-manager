@@ -1,16 +1,17 @@
 package org.example.authenticationservice.service.userimport;
 
-import com.opencsv.CSVWriter;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.List;
+
 import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.enums.UserReportType;
 import org.example.authenticationservice.exception.UserReportGenerationException;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.List;
+import com.opencsv.CSVWriter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Strategy for generating reports in CSV format.

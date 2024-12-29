@@ -1,12 +1,12 @@
 package org.example.authenticationservice.service.userimport;
 
-import org.example.authenticationservice.entity.User;
-import org.example.authenticationservice.enums.UserReportType;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import org.example.authenticationservice.entity.User;
+import org.example.authenticationservice.enums.UserReportType;
 
 public interface UserReportStrategy {
 

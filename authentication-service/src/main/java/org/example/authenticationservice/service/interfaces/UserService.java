@@ -1,10 +1,9 @@
 package org.example.authenticationservice.service.interfaces;
 
-import org.example.authenticationservice.dto.UserDto;
-import org.example.authenticationservice.entity.User;
-
 import java.util.List;
 
+import org.example.authenticationservice.dto.UserDto;
+import org.example.authenticationservice.entity.User;
 
 public interface UserService {
     User createUser(UserDto userDto);

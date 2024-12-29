@@ -28,18 +28,32 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-        # Build authorization service
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      # Lint and Build frontend
+      - name: Lint and Build Frontend
+        run: |
+          cd frontend
+          npm install
+          npm run lint
+          npm run build 
+
+      # Build authorization service
       - name: Build Authorization Service with Maven
         run: mvn -B package --file authentication-service/pom.xml
 
-        # Build task service
+      # Build task service
       - name: Build Task Service with Maven
         run: mvn -B package --file task-service/pom.xml
 
-        # Build gateway service
+      # Build gateway service
       - name: Build Gateway Service with Maven
         run: mvn -B package --file gateway-service/pom.xml
 
       # Build mail service
-      - name: Build Gateway Service with Maven
+      - name: Build Mail Service with Maven
         run: mvn -B package --file mail-sender/pom.xml
