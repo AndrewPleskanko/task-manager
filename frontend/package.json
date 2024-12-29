@@ -24,7 +24,6 @@
     "@types/highlight.js": "^10.1.0",
     "ace-builds": "^1.36.4",
     "bootstrap": "^5.3.3",
-    "highlight.js": "^11.10.0",
     "jwt-decode": "^4.0.0",
     "ngx-ace-wrapper": "^17.0.0",
     "ngx-toastr": "^19.0.0",

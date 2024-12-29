@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
@@ -22,15 +23,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
 public class UserServiceIntegrationTest extends BaseServiceTest {
 
-    @MockBean
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate = mock(KafkaTemplate.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
