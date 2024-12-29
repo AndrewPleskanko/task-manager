@@ -30,7 +30,7 @@ jobs:
           npm run build
 
   java:
-    name: Maven Build
+    name: Java Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
