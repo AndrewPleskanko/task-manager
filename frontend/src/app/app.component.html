@@ -1,11 +1,10 @@
-<app-header></app-header>
-
-<nav>
-  <a routerLink="/registration">Register</a>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/task-board">Dashboard</a>
-</nav>
-<app-footer></app-footer>
-<router-outlet></router-outlet>
-
-
+<div class="layout">
+  <app-header></app-header>
+  <div class="main-content">
+    <app-sidebar></app-sidebar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
