@@ -21,4 +21,8 @@ export class AppComponent {
       this.isSidebarOpen.set(this.sidebarService.getSidebarSignal()());
     }, { allowSignalWrites: true });
   }
+
+  get sidebarClass() {
+    return this.isSidebarOpen() ? 'sidebar-open' : 'sidebar-closed';
+  }
 }

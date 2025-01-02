@@ -20,10 +20,20 @@
   display: flex;
 }
 
-.main-container {
-  display: flex;
+.main-content {
   flex: 1;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+.main-content.sidebar-open {
+  margin-left: 250px;
 }
 
 .sidebar {
