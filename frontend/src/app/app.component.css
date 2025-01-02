@@ -1,79 +1,13 @@
-.layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.app-header,
-.app-footer {
-  flex: none;
-  z-index: 10; /* Задаємо вищий z-index для хедера та футера */
-  position: relative; /* Забезпечуємо належне позиціонування */
-}
-
 .main-content {
   display: flex;
-  flex: 1;
+  transition: margin-left 0.3s ease-in-out;
 }
 
-.app-sidebar {
-  width: 250px;
-  background-color: #f4f4f4;
-  position: relative; /* Скидаємо абсолютне позиціонування */
-  z-index: 1; /* Сайдбар не перекриває хедер/футер */
+.main-content.sidebar-open {
+  margin-left: 250px;
 }
 
 .content {
   flex: 1;
-  overflow: auto;
-}
-
-.sidebar {
-  width: 250px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  position: fixed; /* Фіксуємо сайдбар, щоб він не зміщувався */
-  top: 0;
-  left: -250px;
-  bottom: 0;
-  transition: left 0.3s;
-  z-index: 5; /* Ставимо нижчий пріоритет у порівнянні з хедером */
-}
-
-.sidebar.open {
-  left: 0;
-}
-
-.toggle-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.sidebar-header {
-  font-weight: bold;
-  font-size: 1.25rem;
-  border-bottom: 1px solid #ccc;
-}
-
-.nav-link {
-  color: #495057;
-  padding: 10px 20px;
-  text-decoration: none;
-}
-
-.nav-link.active {
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 5px;
-}
-
-.nav-link:hover {
-  background-color: #e9ecef;
-  color: #000;
+  padding: 20px;
 }

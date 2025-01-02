@@ -1,20 +1,22 @@
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { NgModule, importProvidersFrom } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routes';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule, importProvidersFrom} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './app.routes';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideHttpClient} from '@angular/common/http';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    RouterModule,
     NgbModule,
     DragDropModule,
     BrowserAnimationsModule,
@@ -22,13 +24,14 @@ import { AppRoutingModule } from './app.routes';
   ],
   providers: [
     importProvidersFrom(AppRoutingModule)
-  ],
-  bootstrap: [AppComponent]
+  ]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(AppModule)
+    importProvidersFrom(AppModule),
+    provideHttpClient()
   ]
 });
