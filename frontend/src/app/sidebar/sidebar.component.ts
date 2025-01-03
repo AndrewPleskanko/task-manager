@@ -20,6 +20,8 @@ export class SidebarComponent {
     { label: 'Notifications', path: '/notifications' },
     { label: 'Teams', path: '/teams' },
     { label: 'Settings', path: '/settings' },
+    { label: 'AI Assistant', path: '/ai' },
+    { label: 'Charts', path: '/charts' },
   ];
 
   constructor(private sidebarService: SidebarService) {
