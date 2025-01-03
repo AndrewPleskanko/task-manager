@@ -1,6 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
+export interface User {
+  id: string | null;
+  name: string;
+  email: string;
+  role: string;
+  avatarUrl: string;
+  joinedDate: string;
+}
+
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -8,8 +17,15 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
-export class UserProfileComponent {
-  user: any = {};
+export class UserProfileComponent implements OnInit {
+  user: User = {
+    id: null,
+    name: '',
+    email: '',
+    role: '',
+    avatarUrl: '',
+    joinedDate: ''
+  };
 
   constructor(private route: ActivatedRoute) {
   }
