@@ -1,7 +1,7 @@
 package org.example.taskservice.repository;
 
 import org.example.taskservice.entity.Task;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TaskRepository extends MongoRepository<Task, String> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 }

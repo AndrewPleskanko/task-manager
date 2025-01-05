@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: classpath:/db/changelog/tasks/001-create-task-table.sql
+      author: Andrii Pleskanko
+      comment: Create task table
+  - include:
+      file: classpath:/db/changelog/tasks/002-insert-tasks.sql
+      author: Andrii Pleskanko
+      comment: Insert tasks

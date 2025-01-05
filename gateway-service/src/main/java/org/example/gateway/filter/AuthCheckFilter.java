@@ -14,7 +14,6 @@ public class AuthCheckFilter implements GatewayFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getHeaders().getFirst("Authorization");
 
-        // Ваша логіка перевірки токена аутентифікації тут
         if (isValidToken(token)) {
             return chain.filter(exchange);
         } else {
@@ -24,7 +23,6 @@ public class AuthCheckFilter implements GatewayFilter, Ordered {
     }
 
     private boolean isValidToken(String token) {
-        // Ваша логіка перевірки токена. Наприклад, перевірка валідності токена JWT
         return token != null && token.startsWith("Bearer ");
     }
 

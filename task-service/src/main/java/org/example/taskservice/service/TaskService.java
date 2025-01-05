@@ -21,7 +21,7 @@ public class TaskService {
     }
 
     public Optional<Task> getTaskById(String id) {
-        return taskRepository.findById(id);
+        return taskRepository.findById(Long.valueOf(id));
     }
 
     public Task createTask(Task task) {
@@ -31,7 +31,7 @@ public class TaskService {
     }
 
     public Task updateTask(String id, Task taskDetails) {
-        Optional<Task> taskOptional = taskRepository.findById(id);
+        Optional<Task> taskOptional = taskRepository.findById(Long.valueOf(id));
         if (taskOptional.isPresent()) {
             Task task = taskOptional.get();
             task.setTitle(taskDetails.getTitle());
@@ -45,7 +45,7 @@ public class TaskService {
     }
 
     public void deleteTask(String id) {
-        taskRepository.deleteById(id);
+        taskRepository.deleteById(Long.valueOf(id));
     }
 }
 
