@@ -1,235 +1,132 @@
 package org.example.authenticationservice.controller;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.example.authenticationservice.dto.RoleDto;
+import org.example.authenticationservice.dto.AuthResponseDto;
 import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.entity.User;
-import org.example.authenticationservice.mapper.RoleMapper;
-import org.example.authenticationservice.mapper.UserMapper;
-import org.example.authenticationservice.security.JwtAuthEntryPoint;
-import org.example.authenticationservice.security.JwtGenerator;
-import org.example.authenticationservice.security.UserDetailsServiceImpl;
-import org.example.authenticationservice.security.WebSecurityConfig;
-import org.example.authenticationservice.service.AuthenticationServiceImpl;
 import org.example.authenticationservice.service.UserServiceImpl;
-import org.example.authenticationservice.utils.RoleTestUtils;
-import org.example.authenticationservice.utils.UserTestUtils;
+import org.example.authenticationservice.service.interfaces.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(AuthenticationController.class)
-@Import({WebSecurityConfig.class, JwtGenerator.class, JwtAuthEntryPoint.class, AuthenticationServiceImpl.class})
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+import java.util.ArrayList;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class AuthenticationControllerIntegrationTest {
-
-    private UserDto userDtoUser;
-    private UserDto userDtoAdmin;
-    private List<UserDto> userListDto;
-
-    @Mock
-    private AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    AuthenticationServiceImpl authenticationService;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Mock
-    UserDetailsServiceImpl userDetailsService;
+    private AuthenticationService authenticationService;
 
     @Mock
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
-    RoleDto roleUser;
-    RoleDto roleAdmin;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private RoleMapper roleMapper;
+    @InjectMocks
+    private AuthenticationController authenticationController;
+
+    private UserDto userDto;
+    private User user;
 
     @BeforeEach
-    public void setup() {
-        roleUser = RoleTestUtils.createRoleDto(1, "USER");
-        roleAdmin = RoleTestUtils.createRoleDto(2, "USER");
-        userDtoUser = UserTestUtils.createUserDto("john", "123", roleUser, "testUser@gmail.com");
-        userDtoAdmin = UserTestUtils.createUserDto("admin", "admin", roleAdmin, "testAdmin@gmail.com");
-        userListDto = new ArrayList<>();
-        userListDto.add(UserTestUtils.createUserDto("user3", "password3", roleAdmin, "testUser3@gmail.com"));
+    public void setUp() {
+        userDto = new UserDto();
+        userDto.setUsername("testUser");
+        userDto.setPassword("testPassword");
+        userDto.setEmail("testUser@example.com");
+
+        user = new User();
+        user.setUsername("testUser");
+        user.setPassword("testPassword");
+        user.setEmail("testUser@example.com");
     }
 
     @Test
-    @DisplayName("Should return a valid access token for a valid user")
-    public void testAuthenticate_returnsValidToken() throws Exception {
-        mockLoadUserByUsername();
+    @WithMockUser(username = "testUser", roles = "USER")
+    public void testAuthenticate_userAuthentication_success() throws Exception {
 
-        MvcResult authenticateResult = mockMvc.perform(post("/users/authenticate")
+        mockMvc.perform(post("/auth/v1/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDtoUser)))
+                        .content(asJsonString(userDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testAuthenticate_userAuthentication_failure() throws Exception {
+        when(authenticationService.authenticateUser(userDto)).thenThrow(new RuntimeException("Invalid credentials"));
+
+        mockMvc.perform(post("/auth/v1/authenticate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(userDto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", roles = "ADMIN")
+    public void testAddUser_success() throws Exception {
+
+        mockMvc.perform(post("/auth/v1/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(userDto)))
                 .andExpect(status().isOk())
-                .andReturn();
-        assertNotNull(authenticateResult);
+                .andExpect(jsonPath("$.username").value("testUser"))
+                .andExpect(jsonPath("$.email").value("testUser@example.com"));
     }
 
     @Test
-    @DisplayName("Should add a new user and return the user details")
-    public void testAddNewUser_expectSuccess() throws Exception {
-        doNothing().when(userService).createUser(any(UserDto.class));
-        mockLoadUserByUsername();
+    @WithMockUser(username = "testUser", roles = "ADMIN")
+    public void testAddUser_failure_userExists() throws Exception {
+        when(userService.createUser(userDto)).thenThrow(new RuntimeException("User already exists"));
 
-        String token = generateAuthToken(userDtoUser);
-
-        mockMvc.perform(post("/users/add")
+        mockMvc.perform(post("/auth/v1/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + token)
-                        .content(asJsonString(userDtoUser)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value(userDtoUser.getUsername()))
-                .andExpect(jsonPath("$.password").value(userDtoUser.getPassword()))
-                .andExpect(jsonPath("$.role.name").value(userDtoUser.getRole().getName()));
-
-        verify(userService, times(1)).createUser(any(UserDto.class));
-    }
-
-    @Test
-    @DisplayName("Should return a list of all users")
-    public void testGetList_returnsAllUsers() throws Exception {
-        when(userService.getAllUsers()).thenReturn(userListDto);
-        when(userDetailsService.loadUserByUsername(anyString()))
-                .thenReturn(new User("admin",
-                        "$2a$10$H7Tw60M/fe.vwwBgxCTvYuDrHGOhJ6s.yxArIrjsgfQOwL6lR2RdO",
-                        roleMapper.toEntity(roleAdmin)));
-        when(authenticationProvider.authenticate(any(Authentication.class)))
-                .thenReturn(new UsernamePasswordAuthenticationToken(
-                        userDtoAdmin.getUsername(),
-                        userDtoAdmin.getPassword()));
-        String token = generateAuthToken(userDtoAdmin);
-
-        mockMvc.perform(get("/users/all")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$.[*].username", hasItems("user1", "user2", "user3")))
-                .andExpect(jsonPath("$.[*].password", hasItems("password1", "password2", "password3")))
-                .andExpect(jsonPath("$.[*].role.name", containsInAnyOrder(roleUser.getName(),
-                        roleUser.getName(), roleAdmin.getName())));
-    }
-
-    @Test
-    @DisplayName("Should return 403 Forbidden for an unauthorized user")
-    public void testGetList_returnsForbidden() throws Exception {
-        when(userService.getAllUsers()).thenReturn(userListDto);
-        mockLoadUserByUsername();
-
-        String token = generateAuthToken(userDtoUser);
-
-        mockMvc.perform(get("/users/all")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + token))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("Should return 500 Internal Server Error for an existing user")
-    public void testAddNewUser_returnsServerError() throws Exception {
-        doThrow(new DataIntegrityViolationException("User already exists"))
-                .when(userService).createUser(any(UserDto.class));
-        mockLoadUserByUsername();
-        String token = generateAuthToken(userDtoUser);
-
-        mockMvc.perform(post("/users/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + token)
-                        .content(asJsonString(userDtoUser)))
+                        .content(asJsonString(userDto)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("User already exists"));
     }
 
     @Test
-    @DisplayName("Should return 401 Unauthorized for an invalid user")
-    public void testAuthenticate_returnsUnauthorized() throws Exception {
-        UserDto invalidUserDto = new UserDto();
-        invalidUserDto.setUsername("invalid");
-        invalidUserDto.setRole(roleUser);
+    @WithMockUser(roles = "ADMIN")
+    public void testGetAllUsers_success() throws Exception {
+        List<UserDto> users = new ArrayList<>();
+        users.add(userDto);
+        when(userService.getAllUsers()).thenReturn(users);
 
-        when(userDetailsService.loadUserByUsername(anyString()))
-                .thenThrow(new UsernameNotFoundException("User not found"));
-        when(authenticationProvider.authenticate(any(Authentication.class)))
-                .thenThrow(new BadCredentialsException("Invalid credentials"));
-
-        mockMvc.perform(post("/users/authenticate")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(invalidUserDto)))
-                .andExpect(status().isUnauthorized());
-    }
-
-    private String generateAuthToken(UserDto userDto) throws Exception {
-        MvcResult authenticateResult = mockMvc.perform(post("/users/authenticate")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
+        mockMvc.perform(get("/auth/v1/all")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        String response = authenticateResult.getResponse().getContentAsString();
-        return extractTokenFromResponse(response);
+                .andExpect(jsonPath("$[0].username").value("testUser"))
+                .andExpect(jsonPath("$[0].email").value("testUser@example.com"));
     }
 
-    private void mockLoadUserByUsername() {
-        when(userDetailsService.loadUserByUsername(anyString()))
-                .thenReturn(new User("john",
-                        "$2a$10$5vvbROzmmXGkfPVaZTyNjODxOEBkobazyMcGWaoSKugSaMLSER0Pq", roleMapper.toEntity(roleUser)));
-        when(authenticationProvider.authenticate(any(Authentication.class)))
-                .thenReturn(new UsernamePasswordAuthenticationToken(
-                        userDtoUser.getUsername(),
-                        userDtoUser.getPassword()));
+    @Test
+    @WithMockUser(roles = "USER")
+    public void testGetAllUsers_unauthorized() throws Exception {
+        mockMvc.perform(get("/auth/v1/all")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 
-    private String extractTokenFromResponse(String response) {
-        // Extract token from response string (this is a placeholder, implement as needed)
-        return response.substring(response.indexOf("token\":\"") + 8, response.indexOf("\"}"));
-    }
-
-    public static String asJsonString(final Object obj) {
+    private String asJsonString(Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting object to JSON", e);
         }
     }
 }

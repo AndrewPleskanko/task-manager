@@ -1,0 +1,13 @@
+services:
+  test-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: integration-tests-db
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
