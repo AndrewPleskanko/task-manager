@@ -5,12 +5,11 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: task-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/tasks/
-
         - id: authentication-service
           uri: http://localhost:8082
           predicates:
-            - Path=/api/auth/
+            - Path=/api/auth/**
+        - id: task-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/tasks/**

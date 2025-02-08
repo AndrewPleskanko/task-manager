@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @GetMapping
     public List<Task> getAllTasks() {

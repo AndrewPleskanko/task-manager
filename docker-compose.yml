@@ -1,17 +1,15 @@
-version: '3.8'
+version: '3.9'
 
 services:
-
-  test-db:
-    image: postgres:16-alpine
+  postgres:
+    image: postgres:17.2
+    container_name: postgres_container
     environment:
-      POSTGRES_DB: integration-tests-db
-      POSTGRES_USER: sa
-      POSTGRES_PASSWORD: sa
-    volumes:
-      - pg-data:/var/lib/postgresql/data
+      POSTGRES_USER: personal-db
+      POSTGRES_PASSWORD: project
+      POSTGRES_DB: project
     ports:
-      - "5433:5432"
+      - "5432:5432"
     networks:
       - my-network
 
@@ -71,9 +69,6 @@ services:
     networks:
       - my-network
 
-volumes:
-  db-data:
-  pg-data:
-
 networks:
   my-network:
+    driver: bridge

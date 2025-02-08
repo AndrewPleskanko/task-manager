@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.example.taskservice.entity.Task;
+import org.example.taskservice.enums.Priority;
 import org.example.taskservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -25,6 +26,10 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+        if (task.getPriority() == null) {
+            task.setPriority(Priority.MEDIUM);
+        }
+
         task.setCreatedAt(new Date());
         task.setUpdatedAt(new Date());
         return taskRepository.save(task);

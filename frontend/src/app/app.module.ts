@@ -16,7 +16,7 @@ import {RouterModule} from "@angular/router";
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
+    RouterModule.forRoot([]),
     NgbModule,
     DragDropModule,
     BrowserAnimationsModule,

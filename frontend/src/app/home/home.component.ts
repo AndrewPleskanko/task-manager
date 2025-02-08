@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UserService} from "../services/user.service";
+import {UserService} from "../global-services/user.service";
 import {User} from "../entities/User";
 import {map} from "rxjs";
 

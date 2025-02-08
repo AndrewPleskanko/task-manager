@@ -1,6 +1,5 @@
 spring:
   application:
-    port: 8082
     name: authentication
 
   datasource:
@@ -48,3 +47,6 @@ kafka:
   topic:
     email:
       service: user-deactivation
+
+server:
+  port: 8082
