@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {UserService} from "../global-services/user.service";
+import {UserService} from "../../global-services/user.service";
 import {AbstractControl, FormControl, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 
