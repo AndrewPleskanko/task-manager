@@ -1,24 +1,26 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <button (click)="toggleSidebar()">Toggle Sidebar</button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Task Tracker</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link" routerLink="/profile/1" routerLinkActive="active">My Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/settings" routerLinkActive="active">Settings</a>
           </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-primary me-2">Theme</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-danger" (click)="logout()">Logout</button>
+          </li>
         </ul>
-        <div class="d-flex">
-          <button class="btn btn-outline-primary me-2">Theme</button>
-          <button class="btn btn-danger" (click)="logout()">Logout</button>
-        </div>
       </div>
     </div>
   </nav>
