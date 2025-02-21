@@ -25,9 +25,6 @@ public abstract class BaseServiceTest {
             throw new IllegalStateException("PostgreSQL container failed to start");
         }
         log.info("PostgreSQL container started");
-        log.info("JDBC URL: " + postgresContainer.getJdbcUrl());
-        log.info("Username: " + postgresContainer.getUsername());
-        log.info("Password: " + postgresContainer.getPassword());
     }
 
     @AfterEach

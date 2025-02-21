@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>authentication-service</artifactId>
+    <artifactId>auth-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>authentication-service</name>
     <description>authentication-service</description>

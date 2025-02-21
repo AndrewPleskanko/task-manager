@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.example.taskservice.enums.Status;
 
 @Entity
 @Data
@@ -34,7 +35,7 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private String status;
+    private Status status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt = new Date();
