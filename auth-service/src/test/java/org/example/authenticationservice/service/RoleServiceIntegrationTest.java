@@ -14,15 +14,21 @@ import org.example.authenticationservice.repository.UserRepository;
 import org.example.authenticationservice.service.interfaces.RoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class RoleServiceIntegrationTest extends BaseServiceTest {
 
-
-    private KafkaTemplate<String, String> kafkaTemplate = mock(KafkaTemplate.class);
+    @Mock
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
     private RoleService roleService;

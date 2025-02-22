@@ -41,7 +41,7 @@ public class AuthenticationProviderImplTest extends BaseServiceTest {
 
     @BeforeEach
     public void setUp() {
-        RoleDto createdRole = RoleTestUtils.createRoleDto(1,"ROLE_USER");
+        RoleDto createdRole = RoleTestUtils.createRoleDto("ROLE_USER");
         user = createUserDto("test1", "$2a$10$5vvbROzmmXGkfPVaZTyNjODxOEBkobazyMcGWaoSKugSaMLSER0Pq",
                 createdRole, "testUser@gmail.com");
     }

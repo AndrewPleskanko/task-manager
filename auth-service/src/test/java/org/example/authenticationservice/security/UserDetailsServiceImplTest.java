@@ -27,7 +27,7 @@ public class UserDetailsServiceImplTest extends BaseServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    RoleDto roleDto = RoleTestUtils.createRoleDto(1, "ROLE_USER");
+    RoleDto roleDto = RoleTestUtils.createRoleDto("ROLE_USER");
     @Autowired
     private UserMapper userMapper;
 
