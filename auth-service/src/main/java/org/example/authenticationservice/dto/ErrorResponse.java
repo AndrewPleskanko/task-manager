@@ -1,4 +1,4 @@
-package org.example.authenticationservice.dto; ;
+package org.example.authenticationservice.dto;
 
 import java.util.List;
 
