@@ -5,7 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.example.authenticationservice.dto.ErrorResponse;
-import org.example.authenticationservice.exception.*;
+import org.example.authenticationservice.exception.BaseException;
+import org.example.authenticationservice.exception.EntityNotFoundException;
+import org.example.authenticationservice.exception.InvalidCredentialsException;
+import org.example.authenticationservice.exception.UnsupportedUserReportTypeException;
+import org.example.authenticationservice.exception.UserAlreadyExistsException;
+import org.example.authenticationservice.exception.UserReportGenerationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -57,7 +62,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnsupportedUserReportTypeException.class)
-    public ResponseEntity<ErrorResponse> handleUnsupportedUserReportTypeException(UnsupportedUserReportTypeException ex) {
+    public ResponseEntity<ErrorResponse> handleUnsupportedUserReportTypeException(
+            UnsupportedUserReportTypeException ex) {
         log.error("Unsupported User Report Type: {}", ex.getMessage(), ex);
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
