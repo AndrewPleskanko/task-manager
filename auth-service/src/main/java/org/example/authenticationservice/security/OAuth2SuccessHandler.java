@@ -25,9 +25,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         log.info("OAuth2 authentication success for user: {}", authentication.getName());
 
-        String token = tokenGenerator.generateToken(authentication);
-        String redirectUrl = frontendUrl + "?token=" + token;
-        log.info("Redirect URL: {}", redirectUrl);
-        response.sendRedirect(redirectUrl);
+        try {
+            String token = tokenGenerator.generateToken(authentication);
+            String redirectUrl = frontendUrl + "?token=" + token;
+            log.info("Redirect URL: {}", redirectUrl);
+            response.sendRedirect(redirectUrl);
+        } catch (Exception e) {
+            log.error("Error generating token or redirecting", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Authentication failed");
+        }
     }
 }

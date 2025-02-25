@@ -22,7 +22,7 @@ export class UserService {
   }
 
   login(user: User): Observable<OAuthResponse> {
-    return this.http.post<OAuthResponse>(`${this.apiUrl}/authenticate`, user);
+    return this.http.post<OAuthResponse>(`${this.apiUrl}/login`, user);
   }
 
   getList() {

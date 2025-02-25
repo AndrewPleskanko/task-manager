@@ -1,5 +1,15 @@
 package org.example.authenticationservice.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.example.authenticationservice.dto.AuthResponseDto;
 import org.example.authenticationservice.dto.RoleDto;
 import org.example.authenticationservice.dto.UserDto;
@@ -7,8 +17,8 @@ import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.InvalidCredentialsException;
 import org.example.authenticationservice.exception.UserAlreadyExistsException;
 import org.example.authenticationservice.mapper.UserMapper;
-import org.example.authenticationservice.service.interfaces.AuthenticationService;
 import org.example.authenticationservice.service.UserServiceImpl;
+import org.example.authenticationservice.service.interfaces.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,15 +32,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationControllerIntegrationTest {
@@ -87,7 +88,8 @@ public class AuthenticationControllerIntegrationTest {
         when(userMapper.toEntity(userDto)).thenReturn(new User());
         when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
 
-        when(authenticationProvider.authenticate(any())).thenThrow(new InvalidCredentialsException("Invalid credentials"));
+        when(authenticationProvider.authenticate(any())).thenThrow(
+                new InvalidCredentialsException("Invalid credentials"));
 
         mockMvc.perform(post("/auth/v1/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)

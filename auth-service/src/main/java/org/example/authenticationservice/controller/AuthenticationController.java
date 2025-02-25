@@ -10,7 +10,6 @@ import org.example.authenticationservice.service.interfaces.AuthenticationServic
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/auth/v1")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200/")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -42,7 +40,7 @@ public class AuthenticationController {
      * @param userDto The user authentication request.
      * @return ResponseEntity containing the authentication response.
      */
-    @PostMapping("authenticate")
+    @PostMapping("login")
     @Operation(summary = "Authenticate user and generate JWT token", responses = {
             @ApiResponse(responseCode = "200", description = "Successfully authenticated and generated token",
                     content = @Content(schema = @Schema(implementation = AuthResponseDto.class))),

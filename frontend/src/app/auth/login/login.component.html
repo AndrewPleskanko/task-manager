@@ -5,6 +5,9 @@
       <div class="card shadow-sm">
         <div class="card-body p-5">
           <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <div *ngIf="loginError" class="alert alert-danger flex-grow-1 me-3" role="alert">
+              {{ loginError }}
+            </div>
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" formControlName="username"
@@ -17,9 +20,6 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <div *ngIf="loginError" class="alert alert-danger flex-grow-1 me-3" role="alert">
-                {{ loginError }}
-              </div>
               <a href="#" class="small text-decoration-none">Forgot Password?</a>
             </div>
             <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>

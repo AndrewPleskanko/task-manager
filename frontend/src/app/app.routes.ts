@@ -1,6 +1,5 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
-import {RegistrationComponent} from "./auth/registration/registration.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {TokenHandlerComponent} from "./auth/token-handler/token-handler.component";
 import {TaskBoardComponent} from "./task-board/task-board.component";
@@ -17,7 +16,6 @@ import {UserProfileComponent} from "./pages/user-profile/user-profile.component"
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'registration', component: RegistrationComponent},
   {path: 'home', component: HomeComponent},
   {path: 'token-handler', component: TokenHandlerComponent},
   {path: 'login', component: LoginComponent},

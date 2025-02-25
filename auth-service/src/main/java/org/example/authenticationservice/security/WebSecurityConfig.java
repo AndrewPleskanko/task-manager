@@ -43,13 +43,15 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/authenticate", "/auth/add").permitAll()
+                        .requestMatchers("/auth/v1/login", "/auth/v1/add").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**").permitAll()
                         .requestMatchers("/oauth2/**", "/oauth2/authorization/**", "/login/oauth2/**").permitAll()
                         .anyRequest().authenticated())
-                .oauth2Login(oauth2 -> oauth2
+                .formLogin(form -> form
                         .loginPage("/login").permitAll()
+                        .successHandler(successHandler()))
+                .oauth2Login(oauth2 -> oauth2
                         .successHandler(oauth2SuccessHandler)
                         .clientRegistrationRepository(clientRegistrationRepository))
                 .logout(logout -> logout
