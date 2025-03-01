@@ -1,48 +1,46 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-
-export interface User {
-  id: string | null;
-  name: string;
-  email: string;
-  role: string;
-  avatarUrl: string;
-  joinedDate: string;
-}
+import {UserProfileService} from "./services/user-profile.service";
+import {User} from "../../entities/User";
+import {DatePipe} from "@angular/common";
+import {PipesModule} from "../../pipes/pipes.module";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [],
+  imports: [
+    DatePipe,
+    PipesModule,
+    FormsModule
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent implements OnInit {
-  user: User = {
-    id: null,
-    name: '',
-    email: '',
-    role: '',
-    avatarUrl: '',
-    joinedDate: ''
-  };
+  user = new User();
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private userProfileService: UserProfileService) {
   }
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id');
-    this.loadUser(userId);
+    this.loadUserData();
   }
 
-  loadUser(userId: string | null): void {
-    this.user = {
-      id: userId,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      role: 'Admin',
-      avatarUrl: 'https://via.placeholder.com/150',
-      joinedDate: '2023-01-01',
-    };
+  loadUserData(): void {
+    this.userProfileService.getUserInfo().subscribe({
+      next: (data: User) => {
+        this.user = data;
+      }
+    });
+  }
+
+  saveUserChanges() {
+    // TODO: Implement logic to save user changes
+    console.log('Save user changes');
+  }
+
+  deleteUser() {
+    // TODO: Implement logic to delete user
+    console.log('Delete user');
   }
 }

@@ -41,8 +41,8 @@ logging:
     org.springframework.security: DEBUG
 
 jwt:
-  expiration: ${JWT_EXPIRATION:7000001}
-  secretKey: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:7000000}
+  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}
 
 kafka:
   topic:

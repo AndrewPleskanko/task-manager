@@ -17,4 +17,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     void deactivateUser(Long id);
+
+    UserDto getUserByUsername(String username);
 }

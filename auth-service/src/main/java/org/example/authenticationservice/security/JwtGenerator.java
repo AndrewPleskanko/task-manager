@@ -34,6 +34,7 @@ public class JwtGenerator {
                     + "Please provide a key that is at least " + MIN_KEY_LENGTH + " bytes (512 bits) long.");
             throw new IllegalArgumentException("Insecure JWT secret key");
         } else {
+            log.info("Secret Key: {}", jwtSecretKey); //Додати логування
             return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
         }
     }

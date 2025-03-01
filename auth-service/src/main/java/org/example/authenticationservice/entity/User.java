@@ -50,7 +50,6 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @NotNull(message = "Role cannot be null")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;

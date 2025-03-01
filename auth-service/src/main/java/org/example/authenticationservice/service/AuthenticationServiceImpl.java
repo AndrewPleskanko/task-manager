@@ -4,6 +4,7 @@ import org.example.authenticationservice.dto.AuthResponseDto;
 import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.security.JwtGenerator;
 import org.example.authenticationservice.service.interfaces.AuthenticationService;
+import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationProvider authenticationProvider;
+    private final UserService userService;
     private final JwtGenerator tokenGenerator;
 
     /**
@@ -40,5 +42,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = tokenGenerator.generateToken(auth);
         log.info("Generated token for user: {}", userDto.getUsername());
         return new AuthResponseDto(token);
+    }
+
+    public UserDto getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userService.getUserByUsername(username);
     }
 }

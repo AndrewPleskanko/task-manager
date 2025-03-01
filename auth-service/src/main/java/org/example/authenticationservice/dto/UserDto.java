@@ -22,15 +22,13 @@ public class UserDto {
     private String username;
 
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 5, max = 255, message = "Password must be between 6 and 50 characters long")
+    @Size(min = 2, max = 255, message = "Password must be between 6 and 50 characters long")
     private String password;
 
     @Email(message = "Email should be valid")
-    @NotBlank(message = "Email cannot be blank")
     @Size(max = 50, message = "Email must be less than 50 characters long")
     private String email;
 
-    @NotNull(message = "Role cannot be null")
     private RoleDto role;
 
     @Pattern(regexp = "^$|^[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits long")

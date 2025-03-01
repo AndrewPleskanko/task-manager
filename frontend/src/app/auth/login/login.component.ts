@@ -6,6 +6,7 @@ import {AuthService} from "../../global-services/auth.service";
 import {User} from "../../entities/User";
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from "@angular/common";
+import {environment} from "../../environment/environment";
 
 interface OAuthResponse {
   accessToken: string;
@@ -19,7 +20,7 @@ interface OAuthResponse {
     NgIf
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -72,10 +73,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = `${environment.apiUrl}/oauth2/authorization/google`;
   }
 
   loginWithGithub() {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+    window.location.href = `${environment.apiUrl}/oauth2/authorization/github`;
   }
 }

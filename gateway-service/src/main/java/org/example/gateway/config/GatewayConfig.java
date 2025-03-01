@@ -10,12 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class GatewayConfig {
 
     @Bean
-    public AuthCheckFilter authCheckFilter() {
-        return new AuthCheckFilter();
-    }
-
-
-    @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path("/auth/**", "/login/oauth2/code/google", "/oauth2/authorization/google")

@@ -1,5 +1,5 @@
 package org.example.gateway.filter;
 
-public class AuthCheckFilter {
+public class JwtValidationFilter{
 
 }

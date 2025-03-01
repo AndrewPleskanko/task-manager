@@ -7,6 +7,7 @@ import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.service.UserServiceImpl;
 import org.example.authenticationservice.service.interfaces.AuthenticationService;
+import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     /**
      * Authenticates a user and generates a JWT token.
@@ -70,6 +71,20 @@ public class AuthenticationController {
         return ResponseEntity.ok(userSignUpRequest);
     }
 
+    @GetMapping("user/me")
+    @Operation(summary = "Get authenticated user data", responses = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved user data",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    public ResponseEntity<UserDto> getAuthenticatedUser() {
+        UserDto user = authenticationService.getAuthenticatedUser();
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
     /**
      * Get all users.
      *
@@ -86,4 +101,5 @@ public class AuthenticationController {
         List<UserDto> userList = userService.getAllUsers();
         return ResponseEntity.ok(userList);
     }
+
 }

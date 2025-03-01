@@ -10,3 +10,5 @@ spring:
       port: 8500
       discovery:
         enabled: true
+jwt:
+  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}

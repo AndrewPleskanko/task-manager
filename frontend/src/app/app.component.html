@@ -1,5 +1,5 @@
 <div class="app-container">
-  <div class="header">
+  <div class="header" *ngIf="!isLoginPage()">
     <app-header></app-header>
   </div>
   <div class="main-container">
@@ -10,7 +10,7 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div class="footer">
+  <div class="footer" *ngIf="!isLoginPage()">
     <app-footer></app-footer>
   </div>
 </div>
