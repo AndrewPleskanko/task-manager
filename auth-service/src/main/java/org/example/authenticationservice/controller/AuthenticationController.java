@@ -5,7 +5,6 @@ import java.util.List;
 import org.example.authenticationservice.dto.AuthResponseDto;
 import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.entity.User;
-import org.example.authenticationservice.service.UserServiceImpl;
 import org.example.authenticationservice.service.interfaces.AuthenticationService;
 import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth/v1")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

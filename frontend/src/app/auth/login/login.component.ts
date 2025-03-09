@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from "../../global-services/user.service";
-import {AuthService} from "../../global-services/auth.service";
 import {User} from "../../entities/User";
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from "@angular/common";
@@ -29,7 +28,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService,
               private router: Router,
-              private authService: AuthService,
               private route: ActivatedRoute) {
     this.loginForm = new FormGroup({
       password: new FormControl('', Validators.required),

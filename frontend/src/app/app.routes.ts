@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {TokenHandlerComponent} from "./auth/token-handler/token-handler.component";
-import {TaskBoardComponent} from "./task-board/task-board.component";
+import {TaskBoardComponent} from "./pages/task-board/task-board.component";
 import {SettingsComponent} from "./pages/settings/settings.component";
 import {TeamsComponent} from "./pages/teams/teams.component";
 import {NotificationsComponent} from "./pages/notifications/notifications.component";
@@ -30,7 +30,7 @@ export const routes: Routes = [
   {path: 'ai', component: AiComponent},
   {path: 'charts', component: ChartsComponent},
   {path: 'profile/:id', component: UserProfileComponent},
-  {path: '**', redirectTo: 'home'}
+  {path: '**', redirectTo: 'home'},
 ];
 
 export class AppRoutingModule {

@@ -36,11 +36,9 @@ export class UserProfileComponent implements OnInit {
 
   saveUserChanges() {
     // TODO: Implement logic to save user changes
-    console.log('Save user changes');
   }
 
   deleteUser() {
     // TODO: Implement logic to delete user
-    console.log('Delete user');
   }
 }

@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
-import { SidebarService } from '../global-services/sidebar.service';
-import { RouterModule } from "@angular/router";
-import { AuthService } from "../global-services/auth.service";
-import {NgClass} from "@angular/common";
+import {Component} from '@angular/core';
+import {SidebarService} from '../global-services/sidebar.service';
+import {RouterModule} from "@angular/router";
+import {AuthService} from "../global-services/auth.service";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, NgClass],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

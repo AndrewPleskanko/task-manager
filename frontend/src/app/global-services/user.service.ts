@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { API_CONFIG } from '../config/api.config';
-import { TokenService } from './token.service';
 import {User} from "../entities/User";
+import {HeaderService} from "./header.service";
+import {environment} from "../environment/environment";
 
 interface OAuthResponse {
   accessToken: string;
@@ -13,22 +13,19 @@ interface OAuthResponse {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = API_CONFIG.baseUrl;
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  constructor(private http: HttpClient, private headerService: HeaderService) {}
 
   register(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/add`, user);
+    return this.http.post<User>(`${environment.apiUrl}/add`, user);
   }
 
   login(user: User): Observable<OAuthResponse> {
-    return this.http.post<OAuthResponse>(`${this.apiUrl}/login`, user);
+    return this.http.post<OAuthResponse>(`${environment.apiUrl}/auth/login`, user);
   }
 
   getList() {
-    const token = this.tokenService.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get(`${this.apiUrl}/all`, {headers});
+    const headers = this.headerService.getHeaders();
+    return this.http.get(`${environment.apiUrl}/all`, {headers});
   }
 }

@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CdkDrag, CdkDropList, CdkDropListGroup, CdkDragHandle} from '@angular/cdk/drag-drop';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {NgForOf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {TaskBoardService} from "./service/task-board.service";
 
 @Component({
   selector: 'app-task-board',
@@ -20,7 +21,7 @@ import {ToastrModule, ToastrService} from 'ngx-toastr';
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
-export class TaskBoardComponent {
+export class TaskBoardComponent implements OnInit {
 
   columns = [
     {name: 'To Do', tasks: [{name: 'Task 1'}, {name: 'Task 2'}]},
@@ -31,7 +32,12 @@ export class TaskBoardComponent {
   newTask: string[] = [];
   showInput: boolean[] = [];
 
-  constructor(private toastr: ToastrService) {
+  constructor(private toast: ToastrService,
+              private taskBoard: TaskBoardService) {
+  }
+
+  ngOnInit(): void {
+    this.getUserInfo();
   }
 
   drop(event: CdkDragDrop<{ name: string }[]>) {
@@ -54,11 +60,15 @@ export class TaskBoardComponent {
   addTask(columnIndex: number, taskName: string) {
     if (taskName) {
       this.columns[columnIndex].tasks.push({name: taskName});
-      this.toastr.success('Task added successfully!', 'Success');
+      this.toast.success('Task added successfully!', 'Success');
       this.newTask[columnIndex] = '';
       this.toggleInput(columnIndex);
     } else {
-      this.toastr.error('Task name cannot be empty!', 'Error');
+      this.toast.error('Task name cannot be empty!', 'Error');
     }
+  }
+
+  getUserInfo() {
+    this.taskBoard.getUserInfo().subscribe({});
   }
 }

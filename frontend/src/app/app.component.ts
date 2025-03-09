@@ -14,7 +14,7 @@ import {SidebarService} from './global-services/sidebar.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  isSidebarOpen = signal(false);
+  isSidebarOpen = signal(true);
 
   constructor(private sidebarService: SidebarService,
               private router: Router) {
