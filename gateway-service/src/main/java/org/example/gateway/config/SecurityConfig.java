@@ -15,8 +15,8 @@ public class SecurityConfig {
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/auth/v1/login", "/login/oauth2/code/google",
-                                "/oauth2/authorization/google").permitAll()
+                        .pathMatchers("/api/v1/auth/login", "/login/oauth2/code/google",
+                                "/oauth2/authorization/google", "/api/v1/auth/add").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
                         .anyExchange().permitAll()
                 );
