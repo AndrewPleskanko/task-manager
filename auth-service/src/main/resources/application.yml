@@ -36,6 +36,17 @@ spring:
   profiles:
     active: prod
 
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        health-check-critical-timeout: 30s
+        prefer-ip-address: true
+        instance-id: "${spring.application.name}-${server.port}"
+
 logging:
   level:
     org.springframework.security: DEBUG

@@ -12,16 +12,24 @@ services:
       - "5432:5432"
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U personal-db"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
   consul:
     image: consul:1.10.4
+    container_name: consul_container
     ports:
       - "8500:8500"
+    command: agent -server -bootstrap-expect=1 -ui -client=0.0.0.0
     networks:
       - my-network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: kibana_container
     ports:
       - "5601:5601"
     depends_on:
@@ -31,15 +39,15 @@ services:
       - my-network
 
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: bitnami/kafka:latest
     container_name: kafka
     ports:
       - "9092:9092"
-      - '29092:29092'
+      - "29092:29092"
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://host.docker.internal:29092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
@@ -68,6 +76,11 @@ services:
       - "9200:9200"
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
 networks:
   my-network:

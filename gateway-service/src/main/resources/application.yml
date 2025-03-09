@@ -4,11 +4,18 @@ server:
 spring:
   application:
     name: gateway-service
+
   cloud:
     consul:
       host: localhost
       port: 8500
       discovery:
-        enabled: true
+        hostname: localhost
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        health-check-critical-timeout: 30s
+        prefer-ip-address: true
+        instance-id: "${spring.application.name}-${server.port}"
+
 jwt:
-  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}
+  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+}
