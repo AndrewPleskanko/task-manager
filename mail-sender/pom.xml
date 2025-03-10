@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>8.14.0</version>
+            <version>8.17.3</version>
             <scope>test</scope>
         </dependency>
 
