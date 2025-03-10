@@ -77,7 +77,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     public ResponseEntity<UserDto> getAuthenticatedUser() {
-        UserDto user = authenticationService.getAuthenticatedUser();
+        UserDto user = userService.getAuthenticatedUser();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

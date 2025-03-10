@@ -19,4 +19,8 @@ public interface UserService {
     void deactivateUser(Long id);
 
     UserDto getUserByUsername(String username);
+
+    User findUserByUsername(String username);
+
+    UserDto getAuthenticatedUser();
 }

@@ -2,6 +2,18 @@ spring:
   application:
     name: task-service
 
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        health-check-critical-timeout: 30s
+        prefer-ip-address: true
+        instance-id: "${spring.application.name}-${server.port}"
+
   datasource:
     url: jdbc:postgresql://${DB_HOST}/${DB_NAME}
     username: ${DB_USERNAME}

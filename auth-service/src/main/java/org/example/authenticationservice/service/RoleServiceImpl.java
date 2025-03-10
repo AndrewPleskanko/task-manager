@@ -110,7 +110,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Role not found with id: {}", id);
-                    return new EntityNotFoundException("Role", id);
+                    return new EntityNotFoundException("Role", String.valueOf(id));
                 });
         log.debug("Role found: {}", role);
 
@@ -121,7 +121,7 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleByName(String name) {
         log.info("Find name with name: {}", name);
         Role role = roleRepository.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException("Role", 404L));
+                .orElseThrow(() -> new EntityNotFoundException("Role", String.valueOf(404L)));
         log.debug("Role found: {}", role);
         return role;
     }

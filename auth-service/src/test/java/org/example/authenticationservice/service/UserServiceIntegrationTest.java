@@ -16,6 +16,7 @@ import org.example.authenticationservice.mapper.RoleMapper;
 import org.example.authenticationservice.mapper.UserMapper;
 import org.example.authenticationservice.repository.RoleRepository;
 import org.example.authenticationservice.repository.UserRepository;
+import org.example.authenticationservice.service.interfaces.UserService;
 import org.example.authenticationservice.utils.RoleTestUtils;
 import org.example.authenticationservice.utils.UserTestUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +48,7 @@ public class UserServiceIntegrationTest extends BaseServiceTest {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private RoleMapper roleMapper;

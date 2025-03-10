@@ -17,8 +17,8 @@ import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.InvalidCredentialsException;
 import org.example.authenticationservice.exception.UserAlreadyExistsException;
 import org.example.authenticationservice.mapper.UserMapper;
-import org.example.authenticationservice.service.UserServiceImpl;
 import org.example.authenticationservice.service.interfaces.AuthenticationService;
+import org.example.authenticationservice.service.interfaces.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +45,7 @@ public class AuthenticationControllerIntegrationTest {
     private AuthenticationService authenticationService;
 
     @Mock
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Mock
     private PasswordEncoder passwordEncoder;

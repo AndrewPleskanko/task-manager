@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+import org.example.authenticationservice.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -34,13 +35,20 @@ public class JwtGenerator {
                     + "Please provide a key that is at least " + MIN_KEY_LENGTH + " bytes (512 bits) long.");
             throw new IllegalArgumentException("Insecure JWT secret key");
         } else {
-            log.info("Secret Key: {}", jwtSecretKey); //Додати логування
+            log.info("Secret Key: {}", jwtSecretKey);
             return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
         }
     }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
+        Long userId = null;
+
+        if (authentication.getPrincipal() instanceof User) {
+            User userDetails = (User) authentication.getPrincipal();
+            userId = userDetails.getId();
+        }
+
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpiration);
 
@@ -48,6 +56,7 @@ public class JwtGenerator {
 
         String token = Jwts.builder()
                 .setSubject(username)
+                .claim("userId", userId)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
                 .signWith(key, SignatureAlgorithm.HS512)

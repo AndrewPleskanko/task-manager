@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
+import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.service.BaseServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ public class JwtGeneratorTest extends BaseServiceTest {
     private JwtGenerator jwtGenerator;
 
     private Authentication authentication;
+    private User user;
 
     @BeforeEach
     public void setup() {

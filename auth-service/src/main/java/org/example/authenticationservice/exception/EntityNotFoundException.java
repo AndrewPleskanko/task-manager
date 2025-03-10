@@ -13,7 +13,7 @@ public class EntityNotFoundException extends BaseException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public EntityNotFoundException(String entity, Long id) {
-        super(format("Failed to found '%s' entity  with id: %s", entity, id));
+    public EntityNotFoundException(String entity, String value) {
+        super(format("Failed to found '%s' entity  with id: %s", entity, value));
     }
 }

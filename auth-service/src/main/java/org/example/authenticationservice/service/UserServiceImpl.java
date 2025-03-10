@@ -11,10 +11,10 @@ import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.EntityNotFoundException;
 import org.example.authenticationservice.mapper.UserMapper;
 import org.example.authenticationservice.repository.UserRepository;
+import org.example.authenticationservice.service.interfaces.EmailEventService;
 import org.example.authenticationservice.service.interfaces.RoleService;
 import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
-    private final EmailEventProducerImpl kafkaProducer;
+    private final EmailEventService kafkaProducer;
     private final RoleService roleService;
 
     @Value(value = "${kafka.topic.email.service}")
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         log.info("Starting to deactivate user with ID: {}", id);
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, id));
+                .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, String.valueOf(id)));
 
         user.setStatus(false);
         userRepository.save(user);
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
     public User getUser(Long id) {
         log.info("Reading user by id: {}", id);
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, id));
+                .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, String.valueOf(id)));
     }
 
     /**
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setPassword(encodedPassword);
         } else {
             User existingUser = userRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, id));
+                    .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, String.valueOf(id)));
             userToUpdate.setPassword(existingUser.getPassword());
         }
 
@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
 
         if (!userRepository.existsById(id)) {
             log.error("User not found with id: {}", id);
-            throw new EntityNotFoundException(USER_ENTITY, id);
+            throw new EntityNotFoundException(USER_ENTITY, String.valueOf(id));
         }
 
         userRepository.deleteById(id);
@@ -206,5 +206,17 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(USER_ENTITY, String.valueOf(1L)));
+    }
+
+    @Override
+    public UserDto getAuthenticatedUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUserByUsername(username);
     }
 }
