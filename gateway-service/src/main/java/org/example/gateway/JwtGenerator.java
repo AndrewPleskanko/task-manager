@@ -1,18 +1,14 @@
-package org.example.authenticationservice.security;
+package org.example.gateway;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Date;
 
-import org.example.authenticationservice.entity.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtGenerator {
     private static final int MIN_KEY_LENGTH = 64;
-
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
 
     @Value("${jwt.secretKey}")
     private String jwtSecretKey;
@@ -40,47 +33,16 @@ public class JwtGenerator {
         }
     }
 
-    public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
-        Long userId = null;
-        System.out.println("Authentication: " + authentication);
-        System.out.println("Principal: " + authentication.getPrincipal());
-        System.out.println("Credentials: " + authentication.getCredentials());
-        System.out.println("Authorities: " + authentication.getAuthorities());
-        if (authentication.getPrincipal() instanceof User) {
-            User userDetails = (User) authentication.getPrincipal();
-            userId = userDetails.getId();
-            System.out.println("User ID: " + userId);
-        }
-
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + jwtExpiration);
-
-        Key key = getKey();
-
-        String token = Jwts.builder()
-                .setSubject(username)
-                .claim("userId", userId)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
-
-        log.info("Generating token for user: {}", username);
-        log.debug("New token: {}", token);
-        return token;
-    }
-
-    public String getUsernameFromJwt(String token) {
+    public Long getUserIdFromJwt(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(getKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            String username = claims.getSubject();
-            log.info("Extracting username from JWT: {}", username);
-            return username;
+            Long userId = claims.get("userId", Long.class);
+            log.info("Extracting userId from JWT: {}", userId);
+            return userId;
         } catch (JwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
             return null;

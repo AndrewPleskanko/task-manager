@@ -1,1 +1,22 @@
-<p>charts works!</p>
+<div class="container">
+  <h2>Task Status Distribution</h2>
+  <ngx-charts-pie-chart
+    [view]="view"
+    [results]="taskStatusData"
+    [legend]="showLegend"
+    [labels]="showLabels"
+    [animations]="animations"
+    [scheme]="colorScheme"
+    [tooltipDisabled]="false">
+  </ngx-charts-pie-chart>
+
+  <h2>Task Priority Distribution</h2>
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [results]="taskPriorityData"
+    [legend]="showLegend"
+    [animations]="animations"
+    [scheme]="colorScheme"
+    [tooltipDisabled]="false">
+  </ngx-charts-bar-vertical>
+</div>

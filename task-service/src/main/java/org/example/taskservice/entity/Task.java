@@ -35,6 +35,7 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(name = "created_at", nullable = false, updatable = false)

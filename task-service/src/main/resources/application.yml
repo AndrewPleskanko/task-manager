@@ -24,6 +24,8 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/tasks-databaseChangeLog.yaml
 
+jwt:
+  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}
+
 server:
   port: 8083
-  

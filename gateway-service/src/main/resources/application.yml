@@ -18,4 +18,4 @@ spring:
         instance-id: "${spring.application.name}-${server.port}"
 
 jwt:
-  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+}
+  secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}

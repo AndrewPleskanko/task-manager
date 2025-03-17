@@ -1,18 +1,13 @@
 package org.example.taskservice.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.example.taskservice.entity.Task;
-import org.example.taskservice.service.TaskService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.taskservice.enums.Status;
+import org.example.taskservice.service.impl.TaskServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,32 +15,41 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 public class TaskController {
-
-    private final TaskService taskService;
+    private final TaskServiceImpl taskService;
 
     @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    public List<Task> getAllTasks(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getAllTasks(userId);
     }
 
     @GetMapping("/{id}")
-    public Optional<Task> getTaskById(@PathVariable String id) {
-        return taskService.getTaskById(id);
+    public Optional<Task> getTaskById(@RequestHeader("X-User-Id") String userIdString, @PathVariable String id) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getTaskById(id, userId);
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public Task createTask(@RequestHeader("X-User-Id") String userIdString, @RequestBody Task task) {
+        Long userId = Long.parseLong(userIdString);
+        task.setUserId(userId);
+        return taskService.createTask(task, userId);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable String id, @RequestBody Task taskDetails) {
-        return taskService.updateTask(id, taskDetails);
+    public Task updateTask(@RequestHeader("X-User-Id") String userIdString, @PathVariable String id, @RequestBody Task taskDetails) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.updateTask(id, taskDetails, userId);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable String id) {
-        taskService.deleteTask(id);
+    public void deleteTask(@RequestHeader("X-User-Id") String userIdString, @PathVariable String id) {
+        Long userId = Long.parseLong(userIdString);
+        taskService.deleteTask(id, userId);
+    }
+
+    @GetMapping("/statuses")
+    public List<Status> getStatuses() {
+        return Arrays.asList(Status.values());
     }
 }
-

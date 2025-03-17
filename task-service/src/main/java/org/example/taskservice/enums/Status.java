@@ -1,9 +1,9 @@
 package org.example.taskservice.enums;
 
 public enum Status {
-    TODO,
+    OPEN,
     IN_PROGRESS,
-    DONE,
+    COMPLETED,
     BLOCKED,
     CANCELLED
 }

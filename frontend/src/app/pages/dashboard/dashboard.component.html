@@ -1,1 +1,75 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+  <h2 class="mb-3">Task List</h2>
+
+  <div class="d-flex justify-content-between mb-3">
+    <div>
+      <label for="filter" class="me-2">Filter by Status:</label>
+      <select id="filter" class="form-select w-auto d-inline-block" [(ngModel)]="filterStatus">
+        <option value="all">All</option>
+        <option *ngFor="let status of statuses" [value]="status">{{ status | statusDisplay }}</option>
+      </select>
+    </div>
+    <button class="btn btn-primary">Add Task</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Due Date</th>
+      <th>Assigned To</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of filterTasks(); let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ task.title }}</td>
+      <td>{{ task.description }}</td>
+      <td>
+          <span class="badge"
+                [class.bg-success]="task.status === 'COMPLETED'"
+                [class.bg-warning]="task.status === 'IN_PROGRESS'"
+                [class.bg-secondary]="task.status === 'NEW'">
+            {{ task.status }}
+          </span>
+      </td>
+      <td>
+          <span [class.text-danger]="task.priority === 'HIGH'"
+                [class.text-warning]="task.priority === 'MEDIUM'"
+                [class.text-success]="task.priority === 'LOW'">
+            {{ task.priority }}
+          </span>
+      </td>
+      <td>{{ task.dueDate | date:'short' }}</td>
+      <td>{{ task.assignedTo ? task.assignedTo : 'Not Assigned' }}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary" style="margin-right: 10px">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="setTaskToDelete(task)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmationModalLabel">Підтвердження видалення</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Ви дійсно хочете видалити це завдання?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteTask()">Видалити</button>
+      </div>
+    </div>
+  </div>
+</div>

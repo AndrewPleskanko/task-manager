@@ -25,6 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         .format("User with username %s not found", username)));
         log.info("User loaded successfully: {}", username);
 
-        return new User(user.getUsername(), user.getPassword(), user.getRole());
+        return user;
     }
 }

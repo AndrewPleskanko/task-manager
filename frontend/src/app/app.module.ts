@@ -6,11 +6,13 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {AppRoutingModule} from './app.routes';
-import {RouterModule} from "@angular/router";
+import {RouterModule} from '@angular/router';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
     BrowserModule,
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([]),
