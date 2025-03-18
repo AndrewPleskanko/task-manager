@@ -19,4 +19,30 @@
     [scheme]="colorScheme"
     [tooltipDisabled]="false">
   </ngx-charts-bar-vertical>
+
+  <h2>Task Count by User</h2>
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [results]="taskUserData"
+    [legend]="showLegend"
+    [animations]="animations"
+    [scheme]="colorScheme"
+    [tooltipDisabled]="false">
+  </ngx-charts-bar-vertical>
+
+  <h2>Completed Task Count by Day</h2>
+  <ngx-charts-line-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="completedTaskDailyData"
+    [gradient]="false"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="showLegend"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="'Date'"
+    [yAxisLabel]="'Tasks Completed'"
+    [animations]="animations">
+  </ngx-charts-line-chart>
 </div>

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { TaskService } from "../dashboard/services/task.service";
-import { Task } from "../dashboard/models/dashboard.models";
-import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import {Component, OnInit} from '@angular/core';
+import {NgxChartsModule, Color, ScaleType} from '@swimlane/ngx-charts';
+import {TaskChartService} from './services/task-chart.service';
 
 @Component({
   selector: 'app-charts',
@@ -14,6 +13,8 @@ export class ChartsComponent implements OnInit {
   view: [number, number] = [700, 400];
   taskStatusData: { name: string, value: number }[] = [];
   taskPriorityData: { name: string, value: number }[] = [];
+  taskUserData: { name: string, value: number }[] = [];
+  completedTaskDailyData: { name: string; series: { name: string; value: number }[] }[] = [];
   showLegend = true;
   showLabels = true;
   animations = true;
@@ -23,40 +24,59 @@ export class ChartsComponent implements OnInit {
     group: ScaleType.Ordinal,
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
-  tasks: Task[] = [];
 
-  constructor(private taskService: TaskService) {}
-
-  ngOnInit(): void {
-    this.loadTasks();
+  constructor(private taskChartService: TaskChartService) {
   }
 
-  loadTasks(): void {
-    this.taskService.getTasks().subscribe(data => {
-      this.tasks = data;
-      this.processTaskData(this.tasks);
+  ngOnInit(): void {
+    this.loadTaskData();
+  }
+
+  loadTaskData(): void {
+    this.loadTaskCountByStatus();
+    this.loadTaskCountByPriority();
+    this.loadTaskCountByUser();
+    this.loadCompletedTaskCountByDay();
+  }
+
+  loadTaskCountByStatus(): void {
+    this.taskChartService.getTaskCountByStatus().subscribe(data => {
+      this.taskStatusData = Object.entries(data).map(([key, value]) => ({
+        name: key,
+        value: value as number
+      }));
     });
   }
 
-  processTaskData(tasks: Task[]): void {
-    const statusCounts: Record<string, number> = tasks.reduce((acc, task) => {
-      acc[task.status] = (acc[task.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+  loadTaskCountByPriority(): void {
+    this.taskChartService.getTaskCountByPriority().subscribe(data => {
+      this.taskPriorityData = Object.entries(data).map(([key, value]) => ({
+        name: key,
+        value: value as number
+      }));
+    });
+  }
 
-    this.taskStatusData = Object.keys(statusCounts).map(status => ({
-      name: status,
-      value: statusCounts[status]
-    }));
+  loadTaskCountByUser(): void {
+    this.taskChartService.getTaskCountByUser().subscribe(data => {
+      this.taskUserData = Object.entries(data).map(([key, value]) => ({
+        name: key.toString(),
+        value: value as number
+      }));
+    });
+  }
 
-    const priorityCounts: Record<string, number> = tasks.reduce((acc, task) => {
-      acc[task.priority] = (acc[task.priority] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    this.taskPriorityData = Object.keys(priorityCounts).map(priority => ({
-      name: priority,
-      value: priorityCounts[priority]
-    }));
+  loadCompletedTaskCountByDay(): void {
+    this.taskChartService.getCompletedTaskCountByDay().subscribe(data => {
+      this.completedTaskDailyData = [
+        {
+          name: 'Completed Tasks',
+          series: Object.entries(data).map(([key, value]) => ({
+            name: new Date(key).toLocaleDateString(),
+            value: value as number
+          }))
+        }
+      ];
+    });
   }
 }

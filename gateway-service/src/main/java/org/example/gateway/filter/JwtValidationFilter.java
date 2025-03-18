@@ -33,7 +33,6 @@ public class JwtValidationFilter implements GlobalFilter {
         ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                 .header("X-User-Id", userId.toString())
                 .build();
-        System.out.println("Modified Request: " + userId);
         return chain.filter(exchange.mutate().request(modifiedRequest).build());
     }
 }

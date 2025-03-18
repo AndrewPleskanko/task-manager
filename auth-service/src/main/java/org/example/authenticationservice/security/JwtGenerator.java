@@ -43,14 +43,9 @@ public class JwtGenerator {
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Long userId = null;
-        System.out.println("Authentication: " + authentication);
-        System.out.println("Principal: " + authentication.getPrincipal());
-        System.out.println("Credentials: " + authentication.getCredentials());
-        System.out.println("Authorities: " + authentication.getAuthorities());
         if (authentication.getPrincipal() instanceof User) {
             User userDetails = (User) authentication.getPrincipal();
             userId = userDetails.getId();
-            System.out.println("User ID: " + userId);
         }
 
         Date currentDate = new Date();

@@ -2,6 +2,7 @@ package org.example.taskservice.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.example.taskservice.entity.Task;
@@ -51,5 +52,35 @@ public class TaskController {
     @GetMapping("/statuses")
     public List<Status> getStatuses() {
         return Arrays.asList(Status.values());
+    }
+
+    @GetMapping("/chart/status")
+    public Map<String, Long> getTaskCountByStatus(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getTaskCountByStatus(userId);
+    }
+
+    @GetMapping("/chart/priority")
+    public Map<String, Long> getTaskCountByPriority(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getTaskCountByPriority(userId);
+    }
+
+    @GetMapping("/chart/users")
+    public Map<Long, Long> getTaskCountByUser(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getTaskCountByUser(userId);
+    }
+
+    @GetMapping("/chart/daily")
+    public Map<String, Long> getTaskCountByDay(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getTaskCountByDay(userId);
+    }
+
+    @GetMapping("/chart/completed")
+    public Map<String, Long> getCompletedTaskCountByDay(@RequestHeader("X-User-Id") String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        return taskService.getCompletedTaskCountByDay(userId);
     }
 }
