@@ -24,6 +24,13 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/tasks-databaseChangeLog.yaml
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:8085
+        instance:
+          metadata:
+            name: task-service
 jwt:
   secretKey: ${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{":?><,./;'[]\=-`~}
 

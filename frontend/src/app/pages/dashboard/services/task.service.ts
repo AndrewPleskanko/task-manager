@@ -22,6 +22,12 @@ export class TaskService {
     const headers = this.headerService.getHeaders();
     return this.http.get<string[]>(`${environment.apiUrl}/tasks/statuses`, {headers});
   }
+
+  getPriorities(): Observable<string[]> {
+    const headers = this.headerService.getHeaders();
+    return this.http.get<string[]>(`${environment.apiUrl}/tasks/priorities`, {headers});
+  }
+
   getTaskById(id: string): Observable<Task> {
     const headers = this.headerService.getHeaders();
     return this.http.get<Task>(`${environment.apiUrl}/tasks/${id}`, {headers});

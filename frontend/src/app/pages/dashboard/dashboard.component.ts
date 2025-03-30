@@ -15,12 +15,15 @@ import {PipesModule} from "../../pipes/pipes.module";
     PipesModule
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  tasks: Task[] = [];
+  tasksList: Task[] = [];
+  task: Task = {};
   filterStatus = 'all';
   statuses: string[] = [];
+  priorities: string[] = [];
+  isEditMode = false;
 
   constructor(private taskService: TaskService) {
   }
@@ -32,7 +35,7 @@ export class DashboardComponent implements OnInit {
 
   loadTasks(): void {
     this.taskService.getTasks().subscribe(data => {
-      this.tasks = data;
+      this.tasksList = data;
     });
   }
 
@@ -42,16 +45,47 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  loadPriorities(): void {
+    this.taskService.getPriorities().subscribe(data => {
+      this.priorities = data;
+    });
+  }
+
   filterTasks(): Task[] {
-    if (this.filterStatus === 'all') return this.tasks;
-    return this.tasks.filter(task => task.status === this.filterStatus);
+    if (this.filterStatus === 'all') return this.tasksList;
+    return this.tasksList.filter(task => task.status === this.filterStatus);
   }
 
-  confirmDeleteTask() {
-    return false;
+  createTask() {
+    this.taskService.createTask(this.task).subscribe(
+      () => {
+        this.loadTasks();
+      }
+    )
   }
 
-  setTaskToDelete(task: Task) {
-    return task;
+  openEditDialog(task: Task) {
+    this.isEditMode = true;
+    this.task = task;
+    this.loadPriorities();
+    this.loadStatuses();
   }
+
+  openCreateDialog() {
+    this.loadPriorities();
+    this.loadStatuses();
+  }
+
+  confirmDelete() {
+    if (this.task.id !== undefined) {
+      this.taskService.deleteTask(this.task?.id).subscribe(
+        () => {
+          this.loadTasks();
+        },
+        error => {
+          console.error('Error deleting task:', error);
+        }
+      );
+    }
+    }
 }

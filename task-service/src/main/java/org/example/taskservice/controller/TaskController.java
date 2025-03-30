@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.example.taskservice.entity.Task;
+import org.example.taskservice.enums.Priority;
 import org.example.taskservice.enums.Status;
 import org.example.taskservice.service.impl.TaskServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,11 @@ public class TaskController {
     @GetMapping("/statuses")
     public List<Status> getStatuses() {
         return Arrays.asList(Status.values());
+    }
+
+    @GetMapping("/priorities")
+    public List<Priority> getPriorities() {
+        return Arrays.asList(Priority.values());
     }
 
     @GetMapping("/chart/status")

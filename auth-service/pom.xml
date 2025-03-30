@@ -40,6 +40,7 @@
         <swagger.version>2.2.8</swagger.version>
         <poi.version>5.3.0</poi.version>
         <jjwt.version>0.11.5</jjwt.version>
+        <spring-boot-admin-client.version>3.4.5</spring-boot-admin-client.version>
     </properties>
 
     <dependencyManagement>
@@ -221,6 +222,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin-client.version}</version>
         </dependency>
     </dependencies>
 

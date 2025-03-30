@@ -20,6 +20,7 @@
         <full-artifact-name>target/${project.artifactId}-${project.version}.jar</full-artifact-name>
         <docker.user>docker_name</docker.user>
         <docker.password>docker_password</docker.password>
+        <spring-boot-admin-client.version>3.4.5</spring-boot-admin-client.version>
     </properties>
 
     <dependencies>
@@ -98,6 +99,11 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
             <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin-client.version}</version>
         </dependency>
     </dependencies>
 
