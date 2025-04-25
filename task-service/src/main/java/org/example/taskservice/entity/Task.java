@@ -1,9 +1,12 @@
 package org.example.taskservice.entity;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import org.example.taskservice.enums.Priority;
+import org.example.taskservice.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,14 +15,16 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.example.taskservice.enums.Status;
 
 @Entity
 @Data
 @Table(name = "tasks")
-public class Task {
+public class Task implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -57,8 +62,13 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @Column(name = "tags")
-    private String tags;
+    @ManyToMany
+    @JoinTable(
+            name = "task_tags",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 
     @Column(name = "completed_at")
     private Date completedAt;

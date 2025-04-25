@@ -13,6 +13,8 @@ import {ProjectsComponent} from "./pages/projects/projects.component";
 import {TasksComponent} from "./pages/tasks/tasks.component";
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {UserProfileComponent} from "./pages/user-profile/user-profile.component";
+import {AdminComponent} from "./pages/admin/admin.component";
+import {TagsComponent} from "./pages/admin/tags/tags.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -30,6 +32,15 @@ export const routes: Routes = [
   {path: 'ai', component: AiComponent},
   {path: 'charts', component: ChartsComponent},
   {path: 'profile/:id', component: UserProfileComponent},
+  {path: 'admin',
+    component: AdminComponent,
+    children: [
+      {path: 'tasks', component: TasksComponent},
+      {path: 'tags', component: TagsComponent},
+      {path: 'settings', component: SettingsComponent},
+      {path: '', redirectTo: 'users', pathMatch: 'full'},
+    ],
+  },
   {path: '**', redirectTo: 'home'},
 ];
 

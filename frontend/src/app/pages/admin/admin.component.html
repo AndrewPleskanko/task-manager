@@ -1,0 +1,21 @@
+<!-- Admin Content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="container mt-4">
+      <h2 class="admin-header">Адміністрування</h2>
+
+      <div class="row">
+        <div class="col-md-6 col-lg-4">
+          <ul class="list-group">
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/users">Користувачі</a></li>
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/tasks">Задачі</a></li>
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/tags">Теги</a></li>
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/settings">Налаштування</a></li>
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/logs">Журнали</a></li>
+            <li class="list-group-item"><a class="nav-link" routerLink="/admin/reports">Звіти</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <router-outlet></router-outlet>
+    </div>
+</main>

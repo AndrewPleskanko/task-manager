@@ -1,18 +1,14 @@
 <div cdkDropListGroup class="board">
-  <div
-    class="task-column"
-    *ngFor="let column of columns; let i = index"
-    [cdkDropListData]="column.tasks"
-    cdkDropList
-    [id]="'column-' + i"
-    (cdkDropListDropped)="drop($event)"
-  >
+  <div class="task-column"
+       *ngFor="let column of columns; let i = index"
+       [cdkDropListData]="column.tasks"
+       cdkDropList
+       [id]="'column-' + i"
+       (cdkDropListDropped)="drop($event)">
     <h2>{{ column.name }}</h2>
-    <div
-      class="task"
-      *ngFor="let task of column.tasks"
-      cdkDrag
-    >
+    <div class="task"
+         *ngFor="let task of column.tasks"
+         cdkDrag>
       <div cdkDragHandle>{{ task.name }}</div>
     </div>
 
@@ -20,4 +16,3 @@
     <button (click)="addTask(i, newTask[i])">Add Task</button>
   </div>
 </div>
-<h1>54848</h1>

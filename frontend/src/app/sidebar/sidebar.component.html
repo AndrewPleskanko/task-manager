@@ -1,7 +1,23 @@
-<div class="sidebar" [class.open]="isOpen()">
-  <ul class="nav flex-column">
-    <li class="nav-item" *ngFor="let link of links">
-      <a class="nav-link" [routerLink]="link.path" routerLinkActive="active">{{ link.label }}</a>
-    </li>
-  </ul>
+<div class="sidebar bg-light shadow-sm" [class.open]="isOpen()">
+  <div class="sidebar-scrollable overflow-auto">
+    <ul class="nav flex-column">
+      <li class="nav-item" *ngFor="let section of filteredSections()">
+      <div class="d-flex align-items-center mt-3 mb-2 px-3">
+          <div class="flex-grow-1">
+            <h5 class="sidebar-heading mb-0 text-muted text-uppercase small">
+              {{ section.title }}
+            </h5>
+          </div>
+          <hr class="flex-grow-1 border-top border-secondary opacity-25" />
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item" *ngFor="let item of section.items">
+            <a class="nav-link px-3 py-2 rounded-pill" [routerLink]="item.path" routerLinkActive="active">
+              {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>

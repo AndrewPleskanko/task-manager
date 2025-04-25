@@ -2,13 +2,11 @@
   <div class="header" *ngIf="!isLoginPage()">
     <app-header></app-header>
   </div>
-  <div class="main-container">
-    <div class="sidebar" [class.open]="isSidebarOpen()">
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="main-content" [ngClass]="sidebarClass">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="sidebar-container" [class.open]="isSidebarOpen()">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="main-content" [ngClass]="sidebarClass">
+    <router-outlet></router-outlet>
   </div>
   <div class="footer" *ngIf="!isLoginPage()">
     <app-footer></app-footer>
