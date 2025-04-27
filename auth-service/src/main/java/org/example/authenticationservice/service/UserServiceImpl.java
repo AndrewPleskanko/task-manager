@@ -219,4 +219,12 @@ public class UserServiceImpl implements UserService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getUserByUsername(username);
     }
+
+    @Override
+    public List<UserDto> findByProjectId(Long projectId) {
+        List<User> users = userRepository.findByProjectId(projectId);
+        return users.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

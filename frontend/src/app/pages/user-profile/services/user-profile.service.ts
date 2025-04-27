@@ -16,6 +16,6 @@ export class UserProfileService {
   getUserInfo(): Observable<User> {
     const headers = this.headerService.getHeaders();
 
-    return this.http.get<User>(`${environment.apiUrl}/auth/user/me`, {headers});
+    return this.http.get<User>(`${environment.apiUrl}/users/me`, {headers});
   }
 }

@@ -63,13 +63,17 @@ public class Task implements Serializable {
     private Priority priority;
 
     @ManyToMany
-    @JoinTable(
-            name = "task_tags",
+    @JoinTable(name = "task_tags",
             joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
     @Column(name = "completed_at")
     private Date completedAt;
+
+    @Column(name = "user_story_id", nullable = false)
+    private Long userStoryId;
+
+    @Column(name = "blocked_by_task_id")
+    private Long blockedByTaskId;
 }

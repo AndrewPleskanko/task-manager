@@ -1,30 +1,50 @@
 databaseChangeLog:
   - include:
-      file: classpath:/db/changelog/tasks/001-create-task-table.sql
+      file: classpath:/db/changelog/tasks/000_create_projects_table.sql
       author: Andrii Pleskanko
       comment: Create task table
+  - include:
+      file: classpath:/db/changelog/tasks/001-create-epics-table.sql
+      author: Andrii Pleskanko
+      comment: Create tags table
   - include:
       file: classpath:/db/changelog/tasks/002-create-tags-table.sql
       author: Andrii Pleskanko
       comment: Create tags table
   - include:
-      file: classpath:/db/changelog/tasks/003-create-epics-table.sql
+      file: classpath:/db/changelog/tasks/003-create-user-stories-table.sql
       author: Andrii Pleskanko
       comment: Create tags table
   - include:
-      file: classpath:/db/changelog/tasks/004-create-user-stories-table.sql
+      file: classpath:/db/changelog/tasks/004-create-task-table.sql
       author: Andrii Pleskanko
-      comment: Create tags table
+      comment: Create task table
   - include:
-      file: classpath:/db/changelog/tasks/005-insert-epics-data.sql
+      file: classpath:/db/changelog/tasks/005-create-user-story-dependencies-table.sql
+      author: Andrii Pleskanko
+      comment: Create task table
+  - include:
+      file: classpath:/db/changelog/tasks/006-create-task-tags-table.sql
+      author: Andrii Pleskanko
+      comment: Create task table
+  - include:
+      file: classpath:/db/changelog/tasks/007-insert-projects.sql
+      author: Andrii Pleskanko
+      comment: Create task table
+  - include:
+      file: classpath:/db/changelog/tasks/008-insert-epics-data.sql
       author: Andrii Pleskanko
       comment: Insert tags
   - include:
-      file: classpath:/db/changelog/tasks/006-insert-tags.sql
+      file: classpath:/db/changelog/tasks/009-insert-tags.sql
       author: Andrii Pleskanko
       comment: Insert tasks
   - include:
-      file: classpath:/db/changelog/tasks/007-insert-tasks.sql
+      file: classpath:/db/changelog/tasks/010-insert-user-stories-table.sql
+      author: Andrii Pleskanko
+      comment: Insert tasks
+  - include:
+      file: classpath:/db/changelog/tasks/011-insert-tasks.sql
       author: Andrii Pleskanko
       comment: Insert tasks
 

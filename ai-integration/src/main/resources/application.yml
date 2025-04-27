@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: ai-integration
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        health-check-critical-timeout: 30s
+        prefer-ip-address: true
+        instance-id: "${spring.application.name}-${server.port}"
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}/${DB_NAME:ai_integration_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/tasks-databaseChangeLog.yaml
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:8087
+        instance:
+          metadata:
+            name: ai-integration
+
+jwt:
+  secretKey: "${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{\":?><,./;'[]\\=-`~}"
+
+ai:
+  endpoint:
+    url: https://api.openai.com/v1/completions
+  api:
+    key: sk-your-openai-api-key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+server:
+  port: 8087

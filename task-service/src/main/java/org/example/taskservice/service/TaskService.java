@@ -26,4 +26,6 @@ public interface TaskService {
     Map<String, Long> getTaskCountByDay(Long userId);
 
     Map<String, Long> getCompletedTaskCountByDay(Long userId);
+
+    List<Task> getActiveTasksByUserStoryId(Long userStoryId);
 }

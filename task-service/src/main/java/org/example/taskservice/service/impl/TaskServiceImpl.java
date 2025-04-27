@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.example.taskservice.entity.Task;
 import org.example.taskservice.enums.Priority;
+import org.example.taskservice.enums.Status;
 import org.example.taskservice.exception.TaskNotFoundException;
 import org.example.taskservice.repository.TaskRepository;
 import org.example.taskservice.service.TaskService;
@@ -84,14 +85,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Map<String, Long> getTaskCountByDay(Long userId) {
         return taskRepository.findByUserId(userId).stream()
-                .collect(Collectors.groupingBy(task -> task.getCreatedAt().toString().substring(0, 10), Collectors.counting()));
+                .collect(Collectors.groupingBy(task -> task.getCreatedAt().toString().substring(0, 10),
+                        Collectors.counting()));
     }
 
     @Override
     public Map<String, Long> getCompletedTaskCountByDay(Long userId) {
         return taskRepository.findByUserId(userId).stream()
                 .filter(task -> task.getCompletedAt() != null)
-                .collect(Collectors.groupingBy(task -> task.getCompletedAt().toString().substring(0, 10), Collectors.counting()));
+                .collect(Collectors.groupingBy(task -> task.getCompletedAt().toString().substring(0, 10),
+                        Collectors.counting()));
+    }
+
+    @Override
+    public List<Task> getActiveTasksByUserStoryId(Long userStoryId) {
+        List<Status> activeStatuses = List.of(Status.TO_DO, Status.IN_PROGRESS, Status.BLOCKED);
+        return taskRepository.findByUserStoryIdAndStatusIn(userStoryId, activeStatuses);
     }
 }
 

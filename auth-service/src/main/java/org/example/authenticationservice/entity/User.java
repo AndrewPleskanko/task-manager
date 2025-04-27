@@ -64,6 +64,9 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(name = "status", nullable = false)
     private boolean status;
 
+    @Column(name = "project_id")
+    private Long projectId;
+
     public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;

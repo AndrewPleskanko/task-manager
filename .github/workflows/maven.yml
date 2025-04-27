@@ -42,6 +42,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # Build ai integration
+      - name: Build AI Integration Service with Maven
+        run: mvn -B package --file ai-integration/pom.xml
+
       # Build authorization service
       - name: Build Authorization Service with Maven
         run: mvn -B package --file auth-service/pom.xml

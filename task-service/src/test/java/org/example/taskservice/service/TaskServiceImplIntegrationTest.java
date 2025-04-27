@@ -43,7 +43,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
         task1.setTitle("Task 1");
         task1.setDescription("Description 1");
         task1.setPriority(Priority.HIGH);
-        task1.setStatus(Status.OPEN);
+        task1.setStatus(Status.TO_DO);
         task1.setUserId(userId);
 
         task2 = new Task();

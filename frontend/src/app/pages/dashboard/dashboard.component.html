@@ -37,7 +37,11 @@
         <span class="badge"
               [class.bg-success]="task.status === 'COMPLETED'"
               [class.bg-warning]="task.status === 'IN_PROGRESS'"
-              [class.bg-secondary]="task.status === 'NEW'">
+              [class.bg-secondary]="task.status === 'NEW'"
+              [class.bg-info]="task.status === 'TO_DO'"
+              [class.bg-danger]="task.status === 'BLOCKED'"
+              [class.bg-dark]="task.status === 'CANCELLED'"
+              [class.bg-primary]="task.status === 'IN_REVIEW'">
           {{ task.status }}
         </span>
       </td>

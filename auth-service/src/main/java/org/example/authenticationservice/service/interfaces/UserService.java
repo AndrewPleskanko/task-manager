@@ -23,4 +23,6 @@ public interface UserService {
     User findUserByUsername(String username);
 
     UserDto getAuthenticatedUser();
+
+    List<UserDto> findByProjectId(Long projectId);
 }
