@@ -8,6 +8,14 @@ databaseChangeLog:
       author: Andrii Pleskanko
       comment: Create user table
   - include:
+      file: classpath:/db/changelog/changes/005-create-skill-table.sql
+      author: Andrii Pleskanko
+      comment: Create skill table
+  - include:
+      file: classpath:/db/changelog/changes/006-create-user-skill-table.sql
+      author: Andrii Pleskanko
+      comment: Create user_skill table
+  - include:
       file: classpath:/db/changelog/changes/003-insert-roles.sql
       author: Andrii Pleskanko
       comment: Insert roles

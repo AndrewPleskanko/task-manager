@@ -1,1 +1,47 @@
-<p>ai works!</p>
+<button class="btn btn-primary mb-3" (click)="predictNextSprint()">
+  <i class="bi bi-magic me-2"></i>
+  <span>Predict Next Sprint</span>
+</button>
+
+<div *ngIf="showPrediction" class="mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white py-3">
+      <h5 class="mb-0"><i class="bi bi-lightbulb me-2"></i> Predicted Tasks for the Next Sprint</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th><i class="bi bi-person-fill me-1"></i> User ID</th>
+            <th><i class="bi bi-tag-fill me-1"></i> User Name</th>
+            <th><i class="bi bi-list-task me-1"></i> Predicted Tasks</th>
+            <th><i class="bi bi-hash me-1"></i> Task Count</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let predictedAssignment of predictedAssignments; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ predictedAssignment.userId }}</td>
+            <td>{{ predictedAssignment.userName }}</td>
+            <td>
+                  <span class="badge bg-warning text-dark me-1" *ngFor="let task of predictedAssignment.assignedTasks">
+                    <i class="bi bi-check-circle-fill me-1"></i> {{ task.title }}
+                  </span>
+            </td>
+            <td>
+              <span class="badge bg-info">{{ predictedAssignment.assignedTasks ? predictedAssignment.assignedTasks.length : 0 }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="predictedAssignments.length === 0 && showPrediction">
+            <td colspan="5" class="text-center fst-italic text-muted">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i> No predicted tasks available.
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

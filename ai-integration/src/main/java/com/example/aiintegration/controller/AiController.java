@@ -3,14 +3,15 @@ package com.example.aiintegration.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.aiintegration.service.impl.ProjectService;
+import com.example.aiintegration.service.IProjectService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,15 +21,21 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/ai")
 class AiController {
 
-    private final ProjectService projectService;
+    private final IProjectService projectService;
 
-    @GetMapping("/process/{projectId}")
-    public ResponseEntity<String> processDataWithAi(
-            @RequestParam("prompt") String prompt,
-            @PathVariable Long projectId) {
-
-        log.info("Processing AI request for projectId: {} with prompt: {}", projectId, prompt);
-        return projectService.processDataWithAi(projectId, prompt);
+    @PostMapping("/process/{projectId}")
+    public ResponseEntity<String> processProjectData(@PathVariable Long projectId) {
+        try {
+            String aiResponse = projectService.processDataWithAi(projectId);
+            return ResponseEntity.ok(aiResponse);
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid request for projectId {}: {}", projectId, e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            log.error("Error processing data with AI for projectId {}: {}", projectId, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to process data with AI service: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{projectId}")
