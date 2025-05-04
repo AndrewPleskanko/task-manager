@@ -22,7 +22,6 @@
     "@angular/router": "^18.2.7",
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@swimlane/ngx-charts": "^22.0.0-alpha.0",
-    "@types/highlight.js": "^10.1.0",
     "ace-builds": "^1.36.4",
     "bootstrap": "^5.3.3",
     "frappe-gantt": "^1.0.3",
