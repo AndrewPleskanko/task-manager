@@ -16,4 +16,5 @@ public class TaskDto {
     private Long userId;
     private Long userStoryId;
     private Long blockedByTaskId;
+    private Integer estimatedHours;
 }

@@ -8,5 +8,5 @@ import lombok.Data;
 public class UserAssignmentDto {
     private String userId;
     private String userName;
-    private List<String> assignedTasks;
+    private List<AssignedTaskDto> assignedTasks;
 }

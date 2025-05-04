@@ -21,10 +21,16 @@ export interface AssignmentWithTasks {
   assignedTasks: TaskInfo[];
 }
 
-export type Assignment = AssignmentWithIds | AssignmentWithTasks;
+export interface AssignedTask {
+  taskId: string;
+  title: string;
+  estimatedStartDate: string;
+  estimatedEndDate: string;
+  estimatedHours: number;
+}
 
 export interface PredictedTasksByUser {
   userId: number;
   userName: string;
-  assignedTasks: { id: number; title: string }[];
+  assignedTasks: AssignedTask[];
 }

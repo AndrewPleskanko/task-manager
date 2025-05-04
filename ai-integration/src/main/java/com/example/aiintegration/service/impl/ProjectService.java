@@ -98,7 +98,7 @@ public class ProjectService implements IProjectService {
 //            return response.getBody();
 
             return processAiResponse(
-                    "[{\"userId\": \"1\", \"userName\": \"john@example.com\", \"assignedTasks\": [\"1\", \"9\", \"3\", \"12\", \"22\", \"25\"]}, {\"userId\": \"2\", \"userName\": \"jane@example.com\", \"assignedTasks\": [\"11\", \"15\", \"29\", \"30\", \"32\"]}, {\"userId\": \"3\", \"userName\": \"admin@example.com\", \"assignedTasks\": [\"7\", \"14\", \"23\"]}]",
+                    "[{\"userId\": \"1\", \"userName\": \"john@example.com\", \"assignedTasks\": [{\"taskId\": \"1\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-07\"}, {\"taskId\": \"9\", \"estimatedStartDate\": \"2025-05-08\", \"estimatedEndDate\": \"2025-05-09\"}, {\"taskId\": \"3\", \"estimatedStartDate\": \"2025-05-10\", \"estimatedEndDate\": \"2025-05-12\"}, {\"taskId\": \"12\", \"estimatedStartDate\": \"2025-05-13\", \"estimatedEndDate\": \"2025-05-15\"}, {\"taskId\": \"22\", \"estimatedStartDate\": \"2025-05-16\", \"estimatedEndDate\": \"2025-05-18\"}, {\"taskId\": \"25\", \"estimatedStartDate\": \"2025-05-19\", \"estimatedEndDate\": \"2025-05-21\"}]}, {\"userId\": \"2\", \"userName\": \"jane@example.com\", \"assignedTasks\": [{\"taskId\": \"11\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-06\"}, {\"taskId\": \"15\", \"estimatedStartDate\": \"2025-05-07\", \"estimatedEndDate\": \"2025-05-08\"}, {\"taskId\": \"29\", \"estimatedStartDate\": \"2025-05-09\", \"estimatedEndDate\": \"2025-05-10\"}, {\"taskId\": \"30\", \"estimatedStartDate\": \"2025-05-11\", \"estimatedEndDate\": \"2025-05-12\"}, {\"taskId\": \"32\", \"estimatedStartDate\": \"2025-05-13\", \"estimatedEndDate\": \"2025-05-14\"}]}, {\"userId\": \"3\", \"userName\": \"admin@example.com\", \"assignedTasks\": [{\"taskId\": \"7\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-06\"}, {\"taskId\": \"14\", \"estimatedStartDate\": \"2025-05-07\", \"estimatedEndDate\": \"2025-05-08\"}, {\"taskId\": \"23\", \"estimatedStartDate\": \"2025-05-09\", \"estimatedEndDate\": \"2025-05-12\"}]}]",
                     projectData,
                     users
             );
@@ -115,12 +115,10 @@ public class ProjectService implements IProjectService {
     private String processAiResponse(String aiResponse, List<Map<String, Object>> projectData, List<UserDto> users) throws JsonProcessingException {
         List<UserAssignmentDto> userAssignments = objectMapper.readValue(aiResponse, objectMapper.getTypeFactory().constructCollectionType(List.class, UserAssignmentDto.class));
 
-        // Створюємо мапу для швидкого доступу до завдань за їх ID
         Map<String, TaskDto> allTasks = projectData.stream()
                 .flatMap(story -> ((List<TaskDto>) story.get("tasks")).stream())
-                .collect(Collectors.toMap(task -> String.valueOf(task.getId()), task -> task));
+                .collect(Collectors.toMap(task -> String.valueOf(task.getId()), task -> task, (existing, replacement) -> existing));
 
-        // Створюємо мапу для швидкого доступу до користувачів за їх ID
         Map<String, UserDto> userMap = users.stream()
                 .collect(Collectors.toMap(user -> String.valueOf(user.getId()), user -> user));
 
@@ -129,12 +127,25 @@ public class ProjectService implements IProjectService {
                     Map<String, Object> userAssignmentResult = new HashMap<>();
                     userAssignmentResult.put("userId", assignment.getUserId());
                     UserDto user = userMap.get(assignment.getUserId());
-                    userAssignmentResult.put("userName", user != null ? user.getEmail() : "Unknown User"); // Або user.getName(), якщо є
+                    userAssignmentResult.put("userName", user != null ? user.getEmail() : "Unknown User");
 
-                    List<TaskDto> assignedTasks = assignment.getAssignedTasks().stream()
-                            .map(allTasks::get)
+                    List<Map<String, Object>> assignedTasks = assignment.getAssignedTasks().stream()
+                            .map(assignedTask -> {
+                                TaskDto task = allTasks.get(assignedTask.getTaskId());
+                                if (task != null) {
+                                    Map<String, Object> taskDetails = new HashMap<>();
+                                    taskDetails.put("taskId", task.getId());
+                                    taskDetails.put("title", task.getTitle());
+                                    taskDetails.put("estimatedStartDate", assignedTask.getEstimatedStartDate());
+                                    taskDetails.put("estimatedEndDate", assignedTask.getEstimatedEndDate());
+                                    taskDetails.put("estimatedHours", task.getEstimatedHours() != null ? task.getEstimatedHours() : task.getEstimatedHours()); // Ensure this is populated
+                                    return taskDetails;
+                                }
+                                return null;
+                            })
                             .filter(java.util.Objects::nonNull)
                             .collect(Collectors.toList());
+
                     userAssignmentResult.put("assignedTasks", assignedTasks);
                     return userAssignmentResult;
                 })
