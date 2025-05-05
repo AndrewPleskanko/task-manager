@@ -23,7 +23,7 @@ public class GatewayConfig {
                         .filters(f -> f.filter(jwtValidationFilter::filter))
                         .uri("lb://task-service")
                 )
-                .route(r -> r.path("/api/v1/ai/**")
+                .route(r -> r.path("/api/v1/ai/**", "/api/v1/user-stories/**")
                         .filters(f -> f.filter(jwtValidationFilter::filter))
                         .uri("lb://ai-integration")
                 )

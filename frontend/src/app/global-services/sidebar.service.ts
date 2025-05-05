@@ -4,17 +4,21 @@ import {Injectable, signal} from '@angular/core';
   providedIn: 'root',
 })
 export class SidebarService {
-  private sidebarState = signal(false);
+  private isSidebarOpen = signal(false);
 
-  toggleSidebar(): void {
-    this.sidebarState.set(!this.sidebarState());
-  }
-
-  getSidebarState(): boolean {
-    return this.sidebarState();
+  toggleSidebar() {
+    this.isSidebarOpen.set(!this.isSidebarOpen());
   }
 
   getSidebarSignal() {
-    return this.sidebarState;
+    return this.isSidebarOpen.asReadonly();
+  }
+
+  openSidebar() {
+    this.isSidebarOpen.set(true);
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen.set(false);
   }
 }

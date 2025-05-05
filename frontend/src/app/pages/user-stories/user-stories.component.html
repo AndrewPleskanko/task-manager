@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">User Stories</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success" (click)="createUserStory()">Create New Story</button>
+  </div>
+
+  <div class="table-responsive">
+    <table *ngIf="userStories.length > 0" class="table table-bordered table-hover table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th>№</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let story of userStories; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ story.title }}</td>
+        <td>{{ story.description }}</td>
+        <td>{{ story.priority }}</td>
+        <td>{{ story.status | statusDisplay }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-2" (click)="editUserStory(story.id)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteUserStory(story.id)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="userStories.length === 0" class="text-center text-muted mt-3">No user stories found.</p>
+</div>

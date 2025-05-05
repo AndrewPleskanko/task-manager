@@ -19,6 +19,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+    this.sidebarService.closeSidebar();
   }
 
   toggleSidebar() {

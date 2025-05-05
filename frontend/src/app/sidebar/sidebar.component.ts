@@ -21,6 +21,7 @@ export class SidebarComponent {
         {label: 'Tasks', path: '/tasks'},
         {label: 'Projects', path: '/projects'},
         {label: 'Calendar', path: '/calendar'},
+        {label: 'User Stories', path: '/user-stories'}
       ]
     },
     {
@@ -42,18 +43,6 @@ export class SidebarComponent {
     {
       title: 'Administration',
       items: [
-        {label: 'Users', path: '/admin/users'},
-        {label: 'Tasks', path: '/admin/tasks'},
-        {label: 'Tags', path: '/admin/tags'},
-        {label: 'Settings', path: '/admin/settings'},
-        {label: 'Logs', path: '/admin/logs'},
-        {label: 'Reports', path: '/admin/reports'},
-        {label: 'Users', path: '/admin/users'},
-        {label: 'Tasks', path: '/admin/tasks'},
-        {label: 'Tags', path: '/admin/tags'},
-        {label: 'Settings', path: '/admin/settings'},
-        {label: 'Logs', path: '/admin/logs'},
-        {label: 'Reports', path: '/admin/reports'},
         {label: 'Users', path: '/admin/users'},
         {label: 'Tasks', path: '/admin/tasks'},
         {label: 'Tags', path: '/admin/tags'},
