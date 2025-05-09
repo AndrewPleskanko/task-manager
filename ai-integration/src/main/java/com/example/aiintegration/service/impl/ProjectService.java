@@ -1,10 +1,12 @@
 package com.example.aiintegration.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.example.aiintegration.dto.AssignedTaskDto;
 import com.example.aiintegration.dto.UserAssignmentDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -113,45 +115,79 @@ public class ProjectService implements IProjectService {
     }
 
     private String processAiResponse(String aiResponse, List<Map<String, Object>> projectData, List<UserDto> users) throws JsonProcessingException {
-        List<UserAssignmentDto> userAssignments = objectMapper.readValue(aiResponse, objectMapper.getTypeFactory().constructCollectionType(List.class, UserAssignmentDto.class));
+        List<UserAssignmentDto> userAssignments = objectMapper.readValue(
+                aiResponse,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, UserAssignmentDto.class)
+        );
 
-        Map<String, TaskDto> allTasks = projectData.stream()
-                .flatMap(story -> ((List<TaskDto>) story.get("tasks")).stream())
-                .collect(Collectors.toMap(task -> String.valueOf(task.getId()), task -> task, (existing, replacement) -> existing));
+        Map<String, TaskDto> taskMap = buildTaskMap(projectData);
+        Map<Long, String> storyIdToTitleMap = buildStoryIdToTitleMap(projectData);
+        Map<String, UserDto> userMap = buildUserMap(users);
 
-        Map<String, UserDto> userMap = users.stream()
-                .collect(Collectors.toMap(user -> String.valueOf(user.getId()), user -> user));
-
-        List<Map<String, Object>> result = userAssignments.stream()
-                .map(assignment -> {
-                    Map<String, Object> userAssignmentResult = new HashMap<>();
-                    userAssignmentResult.put("userId", assignment.getUserId());
-                    UserDto user = userMap.get(assignment.getUserId());
-                    userAssignmentResult.put("userName", user != null ? user.getEmail() : "Unknown User");
-
-                    List<Map<String, Object>> assignedTasks = assignment.getAssignedTasks().stream()
-                            .map(assignedTask -> {
-                                TaskDto task = allTasks.get(assignedTask.getTaskId());
-                                if (task != null) {
-                                    Map<String, Object> taskDetails = new HashMap<>();
-                                    taskDetails.put("taskId", task.getId());
-                                    taskDetails.put("title", task.getTitle());
-                                    taskDetails.put("estimatedStartDate", assignedTask.getEstimatedStartDate());
-                                    taskDetails.put("estimatedEndDate", assignedTask.getEstimatedEndDate());
-                                    taskDetails.put("estimatedHours", task.getEstimatedHours() != null ? task.getEstimatedHours() : task.getEstimatedHours()); // Ensure this is populated
-                                    return taskDetails;
-                                }
-                                return null;
-                            })
-                            .filter(java.util.Objects::nonNull)
-                            .collect(Collectors.toList());
-
-                    userAssignmentResult.put("assignedTasks", assignedTasks);
-                    return userAssignmentResult;
-                })
-                .collect(Collectors.toList());
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (UserAssignmentDto assignment : userAssignments) {
+            result.add(buildUserAssignmentWithStories(assignment, taskMap, storyIdToTitleMap, userMap));
+        }
 
         return objectMapper.writeValueAsString(result);
+    }
+
+    private Map<String, TaskDto> buildTaskMap(List<Map<String, Object>> projectData) {
+        return projectData.stream()
+                .flatMap(story -> ((List<TaskDto>) story.get("tasks")).stream())
+                .collect(Collectors.toMap(TaskDto::getId, task -> task));
+    }
+
+    private Map<Long, String> buildStoryIdToTitleMap(List<Map<String, Object>> projectData) {
+        Map<Long, String> storyMap = new HashMap<>();
+        for (Map<String, Object> story : projectData) {
+            Long storyId = ((Number) story.get("id")).longValue();
+            String storyTitle = (String) story.get("title");
+            storyMap.put(storyId, storyTitle);
+        }
+        return storyMap;
+    }
+
+    private Map<String, UserDto> buildUserMap(List<UserDto> users) {
+        return users.stream()
+                .collect(Collectors.toMap(user -> String.valueOf(user.getId()), user -> user));
+    }
+
+    private Map<String, Object> buildUserAssignmentWithStories(UserAssignmentDto assignment, Map<String, TaskDto> taskMap, Map<Long, String> storyIdToTitleMap, Map<String, UserDto> userMap) {
+        Map<String, Object> userResult = new HashMap<>();
+        UserDto user = userMap.get(assignment.getUserId());
+        userResult.put("userName", user != null ? user.getUsername() : "Unknown User");
+
+        Map<String, List<Map<String, Object>>> storyToTasks = new HashMap<>();
+        for (AssignedTaskDto assignedTask : assignment.getAssignedTasks()) {
+            TaskDto task = taskMap.get(assignedTask.getTaskId());
+            if (task != null) {
+                String storyTitle = storyIdToTitleMap.get(task.getUserStoryId());
+                if (storyTitle == null) {
+                    storyTitle = "Unknown Story";
+                }
+
+                Map<String, Object> taskDetails = new HashMap<>();
+                taskDetails.put("taskId", task.getId());
+                taskDetails.put("title", task.getTitle());
+                taskDetails.put("estimatedStartDate", assignedTask.getEstimatedStartDate());
+                taskDetails.put("estimatedEndDate", assignedTask.getEstimatedEndDate());
+                taskDetails.put("estimatedHours", task.getEstimatedHours());
+
+                storyToTasks.computeIfAbsent(storyTitle, k -> new ArrayList<>()).add(taskDetails);
+            }
+        }
+
+        List<Map<String, Object>> assignedStories = new ArrayList<>();
+        for (Map.Entry<String, List<Map<String, Object>>> entry : storyToTasks.entrySet()) {
+            Map<String, Object> storyDetails = new HashMap<>();
+            storyDetails.put("storyTitle", entry.getKey());
+            storyDetails.put("tasks", entry.getValue());
+            assignedStories.add(storyDetails);
+        }
+
+        userResult.put("assignedStories", assignedStories);
+        return userResult;
     }
 
     @Override

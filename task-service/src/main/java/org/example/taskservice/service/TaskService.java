@@ -7,25 +7,27 @@ import java.util.Optional;
 import org.example.taskservice.entity.Task;
 
 public interface TaskService {
-    List<Task> getAllTasks(Long userId);
+    List<Task> getAllTasks();
 
-    Optional<Task> getTaskById(String id, Long userId);
+    Optional<Task> getTaskById(String id);
 
-    Task createTask(Task task, Long userId);
+    Task createTask(Task task);
 
-    Task updateTask(String id, Task taskDetails, Long userId);
+    Task updateTask(String id, Task taskDetails);
 
-    void deleteTask(String id, Long userId);
+    void deleteTask(String id);
 
-    Map<String, Long> getTaskCountByStatus(Long userId);
+    Map<String, Long> getTaskCountByStatus();
 
-    Map<String, Long> getTaskCountByPriority(Long userId);
+    Map<String, Long> getTaskCountByPriority();
 
-    Map<Long, Long> getTaskCountByUser(Long userId);
+    Map<Long, Long> getTaskCountByUser();
 
-    Map<String, Long> getTaskCountByDay(Long userId);
+    Map<String, Long> getTaskCountByDay();
 
-    Map<String, Long> getCompletedTaskCountByDay(Long userId);
+    Map<String, Long> getCompletedTaskCountByDay();
 
     List<Task> getActiveTasksByUserStoryId(Long userStoryId);
+
+    Task updateTaskStatus(String id, String newStatus);
 }

@@ -59,7 +59,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
 
     @Test
     void getAllTasks_shouldReturnAllTasks() {
-        List<Task> tasks = taskService.getAllTasks(userId);
+        List<Task> tasks = taskService.getAllTasks();
         assertEquals(2, tasks.size());
         assertTrue(tasks.stream().anyMatch(task -> task.getTitle().equals("Task 1")));
         assertTrue(tasks.stream().anyMatch(task -> task.getTitle().equals("Task 2")));
@@ -67,14 +67,14 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
 
     @Test
     void getTaskById_shouldReturnTask_whenTaskExists() {
-        Optional<Task> foundTask = taskService.getTaskById(String.valueOf(task1.getId()), userId);
+        Optional<Task> foundTask = taskService.getTaskById(String.valueOf(task1.getId()));
         assertTrue(foundTask.isPresent());
         assertEquals("Task 1", foundTask.get().getTitle());
     }
 
     @Test
     void getTaskById_shouldReturnEmptyOptional_whenTaskDoesNotExist() {
-        Optional<Task> foundTask = taskService.getTaskById("999", userId);
+        Optional<Task> foundTask = taskService.getTaskById("999");
         assertFalse(foundTask.isPresent());
     }
 
@@ -84,7 +84,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
         newTask.setTitle("New Task");
         newTask.setDescription("New Description");
 
-        Task createdTask = taskService.createTask(newTask, userId);
+        Task createdTask = taskService.createTask(newTask);
 
         assertNotNull(createdTask.getId());
         assertEquals("New Task", createdTask.getTitle());
@@ -100,7 +100,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
         updatedTaskDetails.setDescription("Updated Description");
         updatedTaskDetails.setStatus(Status.COMPLETED);
 
-        Task updatedTask = taskService.updateTask(String.valueOf(task1.getId()), updatedTaskDetails, userId);
+        Task updatedTask = taskService.updateTask(String.valueOf(task1.getId()), updatedTaskDetails);
 
         assertEquals("Updated Task", updatedTask.getTitle());
         assertEquals("Updated Description", updatedTask.getDescription());
@@ -114,12 +114,12 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
         Task updatedTaskDetails = new Task();
         updatedTaskDetails.setTitle("Updated Task");
 
-        assertThrows(RuntimeException.class, () -> taskService.updateTask("999", updatedTaskDetails, userId));
+        assertThrows(RuntimeException.class, () -> taskService.updateTask("999", updatedTaskDetails));
     }
 
     @Test
     void deleteTask_shouldDeleteTask() {
-        taskService.deleteTask(String.valueOf(task1.getId()), userId);
+        taskService.deleteTask(String.valueOf(task1.getId()));
         Optional<Task> deletedTask = taskRepository.findById(task1.getId());
         assertFalse(deletedTask.isPresent());
     }
@@ -128,7 +128,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
     void createTask_shouldSetDefaultPriority_whenPriorityIsNull() {
         Task newTask = new Task();
         newTask.setTitle("Task with no priority");
-        Task createdTask = taskService.createTask(newTask, userId);
+        Task createdTask = taskService.createTask(newTask);
         assertEquals(Priority.MEDIUM, createdTask.getPriority());
     }
 
@@ -136,7 +136,7 @@ public class TaskServiceImplIntegrationTest extends BaseServiceTest {
     void createTask_shouldSetCreatedAtAndUpdatedAt() {
         Task newTask = new Task();
         newTask.setTitle("Task with timestamps");
-        Task createdTask = taskService.createTask(newTask, userId);
+        Task createdTask = taskService.createTask(newTask);
         assertNotNull(createdTask.getCreatedAt());
         assertNotNull(createdTask.getUpdatedAt());
     }

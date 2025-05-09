@@ -1,10 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDrag, CdkDropList, CdkDropListGroup, CdkDragHandle} from '@angular/cdk/drag-drop';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {NgForOf} from '@angular/common';
+import {DatePipe, NgClass, NgForOf, NgIf, TitleCasePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
-import {TaskBoardService} from "./service/task-board.service";
+import {TaskBoardService} from './service/task-board.service';
+import {Task} from './models/task.models';
+
+interface Column {
+  name: string;
+  tasks: Task[];
+}
 
 @Component({
   selector: 'app-task-board',
@@ -16,33 +22,70 @@ import {TaskBoardService} from "./service/task-board.service";
     CdkDragHandle,
     NgForOf,
     FormsModule,
-    ToastrModule
+    ToastrModule,
+    NgIf,
+    TitleCasePipe,
+    DatePipe,
+    NgClass
   ],
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
 export class TaskBoardComponent implements OnInit {
-
-  columns = [
-    {name: 'To Do', tasks: [{name: 'Task 1'}, {name: 'Task 2'}]},
-    {name: 'In Progress', tasks: [{name: 'Task 3'}, {name: 'Task 4'}]},
-    {name: 'Done', tasks: [{name: 'Task 5'}]},
-  ];
+  columns: Column[] = [];
 
   newTask: string[] = [];
   showInput: boolean[] = [];
+  tasks: Task[] = [];
+  statusColumns: string[] = [];
 
-  constructor(private toast: ToastrService,
-              private taskBoard: TaskBoardService) {
+  constructor(private toast: ToastrService, private taskBoard: TaskBoardService) {
   }
 
   ngOnInit(): void {
-    this.getUserInfo();
+    this.loadStatusesAndTasks();
+     }
+
+  loadStatusesAndTasks() {
+    this.taskBoard.getStatuses().subscribe(
+      (statusList) => {
+        this.columns = statusList.map((status: string) => ({
+          name: status,
+          tasks: []
+        }));
+
+        this.loadTasks();
+      },
+      (error) => {
+        this.toast.error('Failed to load statuses!', 'Error');
+        console.error('Error loading statuses:', error);
+      }
+    );
   }
 
-  drop(event: CdkDragDrop<{ name: string }[]>) {
+  loadTasks() {
+    this.taskBoard.getAllTasks().subscribe(
+      (tasks) => {
+        this.tasks = tasks;
+        this.groupTasksByStatus();
+      },
+      (error) => {
+        this.toast.error('Failed to load tasks!', 'Error');
+        console.error('Error loading tasks:', error);
+      }
+    );
+  }
+
+  groupTasksByStatus() {
+    this.columns.forEach(column => {
+      column.tasks = this.tasks.filter(task => task.status === column.name);
+    });
+  }
+
+  drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      // Якщо просто переставляємо в межах одного стовпця — порядок не міняємо на бекенді
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -50,7 +93,24 @@ export class TaskBoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+      const movedTask = event.container.data[event.currentIndex];
+      const newStatus = (event.container.id as string).replace('column-', '').toUpperCase();
+      this.updateTaskStatus(movedTask.id.toString(), newStatus);
     }
+  }
+
+  updateTaskStatus(taskId: string, newStatus: string) {
+    this.taskBoard.updateTaskStatus(taskId, newStatus).subscribe(
+      () => {
+        this.toast.success(`Task status updated to ${newStatus}!`, 'Success');
+        this.loadTasks(); // підтягуємо нові дані після оновлення
+      },
+      (error) => {
+        this.toast.error('Failed to update task status!', 'Error');
+        console.error('Error updating task status:', error);
+        this.loadTasks();
+      }
+    );
   }
 
   toggleInput(index: number) {
@@ -59,16 +119,38 @@ export class TaskBoardComponent implements OnInit {
 
   addTask(columnIndex: number, taskName: string) {
     if (taskName) {
-      this.columns[columnIndex].tasks.push({name: taskName});
-      this.toast.success('Task added successfully!', 'Success');
-      this.newTask[columnIndex] = '';
-      this.toggleInput(columnIndex);
+      const newTask: Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'completedAt'> = {
+        title: taskName,
+        description: null,
+        status: this.columns[columnIndex].name,
+        assignedTo: null,
+        dueDate: null,
+        priority: 'MEDIUM',
+        tags: [],
+        userStoryId: null,
+        blockedByTaskId: null,
+      };
+      this.taskBoard.addTask(newTask).subscribe(
+        (addedTask) => {
+          this.tasks.push(addedTask);
+          this.groupTasksByStatus();
+          this.toast.success('Task added successfully!', 'Success');
+          this.newTask[columnIndex] = '';
+          this.toggleInput(columnIndex);
+        },
+        (error) => {
+          this.toast.error('Failed to add task!', 'Error');
+          console.error('Error adding task:', error);
+        }
+      );
     } else {
       this.toast.error('Task name cannot be empty!', 'Error');
     }
   }
 
-  getUserInfo() {
-    this.taskBoard.getUserInfo().subscribe({});
+  loadStatuses(): void {
+    this.taskBoard.getStatuses().subscribe(data => {
+      this.statusColumns = data;
+    });
   }
 }

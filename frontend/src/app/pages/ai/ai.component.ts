@@ -17,7 +17,6 @@ export class AiComponent {
   showPrediction = false;
   predictedAssignments: PredictedTasksByUser[] = [];
   ganttTasks: {
-    id: string;
     name: string;
     start: string;
     end: string;
@@ -36,21 +35,18 @@ export class AiComponent {
         this.showPrediction = true;
 
         this.ganttTasks = this.predictedAssignments.flatMap((assignment) =>
-          assignment.assignedTasks.map((task) => ({
-            id: `Task-${task.taskId}`,
-            name: `Task ${task.taskId} for ${assignment.userName}`,
-            start: task.estimatedStartDate,
-            end: task.estimatedEndDate,
-            progress: 0,
-            dependencies: '',
-            hours: task.estimatedHours
-          }))
+          assignment.assignedStories.flatMap((story) =>
+            story.tasks.map((task) => ({
+              name: `Task ${task.title} for ${assignment.userName}`,
+              start: task.estimatedStartDate,
+              end: task.estimatedEndDate,
+              progress: 0,
+              dependencies: '',
+              hours: task.estimatedHours
+            }))
+          )
         );
-
         this.renderGanttChart();
-      },
-      (error) => {
-        console.error('Error fetching predictions:', error);
       }
     );
   }
@@ -65,5 +61,9 @@ export class AiComponent {
         });
       }
     }, 0);
+  }
+
+  countTasks(assignedStories: { tasks: any[] }[]): number {
+    return assignedStories.reduce((acc, story) => acc + (story.tasks?.length || 0), 0);
   }
 }

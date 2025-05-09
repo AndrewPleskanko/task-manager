@@ -18,7 +18,7 @@ export class SidebarComponent {
     {
       title: 'Work',
       items: [
-        {label: 'Tasks', path: '/tasks'},
+        {label: 'Task Board', path: '/task-board'},
         {label: 'Projects', path: '/projects'},
         {label: 'Calendar', path: '/calendar'},
         {label: 'User Stories', path: '/user-stories'}

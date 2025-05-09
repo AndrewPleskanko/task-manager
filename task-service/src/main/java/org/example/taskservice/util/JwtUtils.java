@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtUtil {
+public class JwtUtils {
     private static final int MIN_KEY_LENGTH = 64;
 
     @Value("${jwt.secretKey}")
@@ -33,19 +33,26 @@ public class JwtUtil {
         }
     }
 
-    public Long getUserIdFromJwt(String token) {
+    public Claims extractAllClaims(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
+            return Jwts.parserBuilder()
                     .setSigningKey(getKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            Long userId = claims.get("userId", Long.class);
-            log.debug("Extracted userId from JWT: {}", userId); //Changed to debug.
-            return userId;
         } catch (JwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
             return null;
         }
+    }
+
+    public Long getUserIdFromJwt(String token) {
+        Claims claims = extractAllClaims(token);
+        if (claims != null) {
+            Long userId = claims.get("userId", Long.class);
+            log.debug("Extracted userId from JWT: {}", userId);
+            return userId;
+        }
+        return null;
     }
 }

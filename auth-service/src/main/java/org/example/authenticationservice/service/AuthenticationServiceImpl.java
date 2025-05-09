@@ -4,7 +4,6 @@ import org.example.authenticationservice.dto.AuthResponseDto;
 import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.security.JwtGenerator;
 import org.example.authenticationservice.service.interfaces.AuthenticationService;
-import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

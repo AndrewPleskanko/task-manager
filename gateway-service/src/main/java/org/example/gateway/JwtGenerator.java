@@ -33,22 +33,6 @@ public class JwtGenerator {
         }
     }
 
-    public Long getUserIdFromJwt(String token) {
-        try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(getKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-            Long userId = claims.get("userId", Long.class);
-            log.info("Extracting userId from JWT: {}", userId);
-            return userId;
-        } catch (JwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
-            return null;
-        }
-    }
-
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()

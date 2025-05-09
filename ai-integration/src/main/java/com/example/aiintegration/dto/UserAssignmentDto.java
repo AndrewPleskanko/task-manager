@@ -9,4 +9,5 @@ public class UserAssignmentDto {
     private String userId;
     private String userName;
     private List<AssignedTaskDto> assignedTasks;
+    private String storyTitle;
 }
