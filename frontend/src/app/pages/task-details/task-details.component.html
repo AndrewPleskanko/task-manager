@@ -1,1 +1,101 @@
-<p>task-details works!</p>
+<div class="container my-5">
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-header bg-primary text-white py-4 px-4 rounded-top-3">
+      <h4 class="card-title text-uppercase mb-0 text-center fw-bold">
+        {{ isEditMode ? 'Edit Task' : 'Create New Task' }}
+      </h4>
+    </div>
+    <div class="card-body p-5">
+      <form #taskForm="ngForm" class="needs-validation" novalidate aria-labelledby="taskFormTitle">
+
+        <h5 id="taskFormTitle" class="border-bottom pb-3 mb-4 text-uppercase text-muted fw-semibold">Main Information</h5>
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <label for="title" class="form-label fw-medium">Title <span class="text-danger">*</span></label>
+            <input type="text" id="title" class="form-control form-control-lg" [(ngModel)]="task.title" name="title" required
+                   placeholder="Enter task title" aria-required="true" aria-describedby="titleFeedback">
+            <div *ngIf="taskForm.controls['title']?.invalid && (taskForm.controls['title']?.dirty || taskForm.controls['title']?.touched)"
+                 class="invalid-feedback d-block" id="titleFeedback">
+              Please enter the task title.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="priority" class="form-label fw-medium">Priority</label>
+            <select id="priority" class="form-select form-select-lg" [(ngModel)]="task.priority" name="priority"
+                    aria-label="Select task priority">
+              <option value="" disabled selected>Select priority</option>
+              <option *ngFor="let p of priorities" [value]="p">{{ p | priorityDisplay }}</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="description" class="form-label fw-medium">Description <span class="text-danger">*</span></label>
+            <textarea id="description" class="form-control form-control-lg" rows="5" [(ngModel)]="task.description" name="description" required
+                      placeholder="Detailed description of the task and its requirements" aria-required="true" aria-describedby="descriptionFeedback"></textarea>
+            <div *ngIf="taskForm.controls['description']?.invalid && (taskForm.controls['description']?.dirty || taskForm.controls['description']?.touched)"
+                 class="invalid-feedback d-block" id="descriptionFeedback">
+              Please enter the task description.
+            </div>
+          </div>
+        </div>
+
+        <h5 class="border-bottom pb-3 mb-4 text-uppercase text-muted fw-semibold">Details</h5>
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <label for="status" class="form-label fw-medium">Status</label>
+            <select id="status" class="form-select form-select-lg" [(ngModel)]="task.status" name="status"
+                    aria-label="Select task status">
+              <option *ngFor="let s of statuses" [value]="s">{{ s | statusDisplay }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="dueDate" class="form-label fw-medium">Due Date</label>
+            <input type="date" id="dueDate" class="form-control form-control-lg" [(ngModel)]="task.dueDate" name="dueDate"
+                   aria-label="Select task due date">
+          </div>
+          <div class="col-md-6">
+            <label for="completedAt" class="form-label fw-medium">Completed At</label>
+            <input *ngIf="isEditMode" type="datetime-local" id="completedAt" class="form-control form-control-lg"
+                   [(ngModel)]="task.completedAt" name="completedAt" aria-label="Date and time of task completion">
+            <input *ngIf="!isEditMode" type="text" class="form-control form-control-lg" value="Not Applicable" disabled>
+          </div>
+          <div class="col-md-6">
+            <label for="tags" class="form-label fw-medium">Tags (comma separated)</label>
+            <input type="text" id="tags" class="form-control form-control-lg" [(ngModel)]="task.tags" name="tags"
+                   placeholder="e.g., frontend, backend, bug" aria-label="Enter comma separated tags">
+          </div>
+        </div>
+
+        <h5 class="border-bottom pb-3 mb-4 text-uppercase text-muted fw-semibold">Relations</h5>
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <label for="assignedTo" class="form-label fw-medium">Assigned To</label>
+            <input type="number" id="assignedTo" class="form-control form-control-lg" [(ngModel)]="task.assignedTo" name="assignedTo"
+                   placeholder="Enter user" aria-label="Assign task to user">
+          </div>
+          <div class="col-md-4">
+            <label for="userStoryId" class="form-label fw-medium">User Story<span class="text-danger">*</span></label>
+            <input type="number" id="userStoryId" class="form-control form-control-lg" [(ngModel)]="task.userStoryId" name="userStoryId" required
+                   placeholder="Enter User Story" aria-required="true" aria-describedby="userStoryIdFeedback">
+            <div *ngIf="taskForm.controls['userStoryId']?.invalid && (taskForm.controls['userStoryId']?.dirty || taskForm.controls['userStoryId']?.touched)"
+                 class="invalid-feedback d-block" id="userStoryIdFeedback">
+              Please enter the User Story.
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="blockedByTaskId" class="form-label fw-medium">Blocked By Task</label>
+            <input type="number" id="blockedByTaskId" class="form-control form-control-lg" [(ngModel)]="task.blockedByTaskId" name="blockedByTaskId"
+                   placeholder="Enter blocking task" aria-label="Blocked by task">
+          </div>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-end gap-3">
+          <button type="button" class="btn btn-lg btn-outline-secondary px-4 py-2" (click)="cancel()">Cancel</button>
+          <button type="submit" class="btn btn-lg btn-primary px-4 py-2" (click)="createTask()" [disabled]="taskForm.invalid">
+            {{ isEditMode ? 'Save Changes' : 'Create Task' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

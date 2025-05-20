@@ -9,8 +9,7 @@
         <option *ngFor="let status of statuses" [value]="status">{{ status | statusDisplay }}</option>
       </select>
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#taskModal" (click)="openCreateDialog()">
+    <button type="button" class="btn btn-primary" [routerLink]="['/task-details']">
       Create Task
     </button>
   </div>
@@ -67,58 +66,6 @@
     </tr>
     </tbody>
   </table>
-</div>
-
-<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="taskModalLabel">
-          {{ isEditMode ? 'Edit Task' : 'Create Task' }}
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #taskForm="ngForm">
-          <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" id="title" class="form-control" [(ngModel)]="task.title" name="title" required>
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea id="description" class="form-control" [(ngModel)]="task.description" name="description"
-                      required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="priority" class="form-label">Priority</label>
-            <select id="priority" class="form-control" [(ngModel)]="task.priority" name="priority">
-              <option *ngFor="let p of priorities" [value]="p">{{ p | priorityDisplay }}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <select id="status" class="form-control" [(ngModel)]="task.status" name="status">
-              <option *ngFor="let p of statuses" [value]="p">{{ p | statusDisplay }}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="dueDate" class="form-label">Due Date</label>
-            <input type="date" id="dueDate" class="form-control" [(ngModel)]="task.dueDate" name="dueDate">
-          </div>
-          <div class="mb-3">
-            <label for="tags" class="form-label">Tags</label>
-            <input type="text" id="tags" class="form-control" [(ngModel)]="task.tags" name="tags">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="createTask()">
-          {{ isEditMode ? 'Save' : 'Create' }}
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-labelledby="deleteTaskModalLabel" aria-hidden="true">

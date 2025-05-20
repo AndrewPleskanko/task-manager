@@ -4,6 +4,7 @@ import {Task} from "./models/dashboard.models";
 import {DatePipe, NgForOf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {PipesModule} from "../../pipes/pipes.module";
+import {RouterModule} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,8 @@ import {PipesModule} from "../../pipes/pipes.module";
     DatePipe,
     FormsModule,
     NgForOf,
-    PipesModule
+    PipesModule,
+    RouterModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -78,7 +80,7 @@ export class DashboardComponent implements OnInit {
 
   confirmDelete() {
     if (this.task.id !== undefined) {
-      this.taskService.deleteTask(this.task?.id).subscribe(
+      this.taskService.deleteTask(this.task.id).subscribe(
         () => {
           this.loadTasks();
         },

@@ -41,9 +41,11 @@
         </div>
 
         <div class="add-task mt-auto">
-          <button class="btn btn-sm btn-outline-primary w-100" (click)="toggleInput(i)" *ngIf="!showInput[i]">
+          <a class="btn btn-sm btn-outline-primary w-100"
+             [routerLink]="['/task-details']"
+             *ngIf="!showInput[i]">
             <i class="bi bi-plus-circle me-1"></i> Add Task
-          </button>
+          </a>
           <div *ngIf="showInput[i]" class="mt-2">
             <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="newTask[i]"
                    placeholder="Task title">

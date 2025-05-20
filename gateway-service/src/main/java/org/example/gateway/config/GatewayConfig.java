@@ -16,7 +16,8 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(r -> r.path("/api/v1/auth/**", "/api/v1/users/**", "/login/oauth2/code/google", "/oauth2/authorization/google")
+                .route(r -> r.path("/api/v1/auth/**", "/api/v1/users/**",
+                                "/login/oauth2/code/google", "/oauth2/authorization/google")
                         .uri("lb://auth-service")
                 )
                 .route(r -> r.path("/api/v1/tasks/**")

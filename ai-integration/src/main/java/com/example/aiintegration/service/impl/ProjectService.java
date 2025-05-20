@@ -100,7 +100,96 @@ public class ProjectService implements IProjectService {
 //            return response.getBody();
 
             return processAiResponse(
-                    "[{\"userId\": \"1\", \"userName\": \"john@example.com\", \"assignedTasks\": [{\"taskId\": \"1\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-07\"}, {\"taskId\": \"9\", \"estimatedStartDate\": \"2025-05-08\", \"estimatedEndDate\": \"2025-05-09\"}, {\"taskId\": \"3\", \"estimatedStartDate\": \"2025-05-10\", \"estimatedEndDate\": \"2025-05-12\"}, {\"taskId\": \"12\", \"estimatedStartDate\": \"2025-05-13\", \"estimatedEndDate\": \"2025-05-15\"}, {\"taskId\": \"22\", \"estimatedStartDate\": \"2025-05-16\", \"estimatedEndDate\": \"2025-05-18\"}, {\"taskId\": \"25\", \"estimatedStartDate\": \"2025-05-19\", \"estimatedEndDate\": \"2025-05-21\"}]}, {\"userId\": \"2\", \"userName\": \"jane@example.com\", \"assignedTasks\": [{\"taskId\": \"11\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-06\"}, {\"taskId\": \"15\", \"estimatedStartDate\": \"2025-05-07\", \"estimatedEndDate\": \"2025-05-08\"}, {\"taskId\": \"29\", \"estimatedStartDate\": \"2025-05-09\", \"estimatedEndDate\": \"2025-05-10\"}, {\"taskId\": \"30\", \"estimatedStartDate\": \"2025-05-11\", \"estimatedEndDate\": \"2025-05-12\"}, {\"taskId\": \"32\", \"estimatedStartDate\": \"2025-05-13\", \"estimatedEndDate\": \"2025-05-14\"}]}, {\"userId\": \"3\", \"userName\": \"admin@example.com\", \"assignedTasks\": [{\"taskId\": \"7\", \"estimatedStartDate\": \"2025-05-05\", \"estimatedEndDate\": \"2025-05-06\"}, {\"taskId\": \"14\", \"estimatedStartDate\": \"2025-05-07\", \"estimatedEndDate\": \"2025-05-08\"}, {\"taskId\": \"23\", \"estimatedStartDate\": \"2025-05-09\", \"estimatedEndDate\": \"2025-05-12\"}]}]",
+                    "[\n" +
+                            "  {\n" +
+                            "    \"userId\": \"1\",\n" +
+                            "    \"userName\": \"john@example.com\",\n" +
+                            "    \"assignedTasks\": [\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"1\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-12\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-14\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"9\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-15\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-16\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"3\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-17\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-19\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"12\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-20\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-22\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"22\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-23\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-25\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"25\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-26\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-28\"\n" +
+                            "      }\n" +
+                            "    ]\n" +
+                            "  },\n" +
+                            "  {\n" +
+                            "    \"userId\": \"2\",\n" +
+                            "    \"userName\": \"jane@example.com\",\n" +
+                            "    \"assignedTasks\": [\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"11\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-12\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-13\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"15\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-14\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-15\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"29\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-16\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-17\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"30\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-18\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-19\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"32\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-20\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-21\"\n" +
+                            "      }\n" +
+                            "    ]\n" +
+                            "  },\n" +
+                            "  {\n" +
+                            "    \"userId\": \"3\",\n" +
+                            "    \"userName\": \"admin@example.com\",\n" +
+                            "    \"assignedTasks\": [\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"7\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-12\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-13\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"14\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-14\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-15\"\n" +
+                            "      },\n" +
+                            "      {\n" +
+                            "        \"taskId\": \"23\",\n" +
+                            "        \"estimatedStartDate\": \"2025-05-16\",\n" +
+                            "        \"estimatedEndDate\": \"2025-05-19\"\n" +
+                            "      }\n" +
+                            "    ]\n" +
+                            "  }\n" +
+                            "]",
                     projectData,
                     users
             );

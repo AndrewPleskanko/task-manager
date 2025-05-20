@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {PredictionService} from "./services/predicted-task.service";
 import {NgForOf, NgIf} from "@angular/common";
-import {PredictedTasksByUser} from "./models/assignment.models";
+import {AssignedStory, PredictedTasksByUser} from "./models/assignment.models";
 import Gantt from 'frappe-gantt';
 
 @Component({
@@ -63,7 +63,7 @@ export class AiComponent {
     }, 0);
   }
 
-  countTasks(assignedStories: { tasks: any[] }[]): number {
+  countTasks(assignedStories: AssignedStory[]): number {
     return assignedStories.reduce((acc, story) => acc + (story.tasks?.length || 0), 0);
   }
 }

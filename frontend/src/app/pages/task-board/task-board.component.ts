@@ -6,6 +6,8 @@ import {FormsModule} from '@angular/forms';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
 import {TaskBoardService} from './service/task-board.service';
 import {Task} from './models/task.models';
+import {RouterLink} from "@angular/router";
+import {StatusPipe} from "../../pipes/status.pipe";
 
 interface Column {
   name: string;
@@ -26,7 +28,8 @@ interface Column {
     NgIf,
     TitleCasePipe,
     DatePipe,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
@@ -38,6 +41,7 @@ export class TaskBoardComponent implements OnInit {
   showInput: boolean[] = [];
   tasks: Task[] = [];
   statusColumns: string[] = [];
+  private statusPipe = new StatusPipe();
 
   constructor(private toast: ToastrService, private taskBoard: TaskBoardService) {
   }
@@ -85,7 +89,6 @@ export class TaskBoardComponent implements OnInit {
   drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      // Якщо просто переставляємо в межах одного стовпця — порядок не міняємо на бекенді
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -102,8 +105,9 @@ export class TaskBoardComponent implements OnInit {
   updateTaskStatus(taskId: string, newStatus: string) {
     this.taskBoard.updateTaskStatus(taskId, newStatus).subscribe(
       () => {
-        this.toast.success(`Task status updated to ${newStatus}!`, 'Success');
-        this.loadTasks(); // підтягуємо нові дані після оновлення
+        const statusText = this.statusPipe.transform(newStatus);
+        this.toast.success(`Task status updated to ${statusText}!`, 'Success');
+        this.loadTasks();
       },
       (error) => {
         this.toast.error('Failed to update task status!', 'Error');

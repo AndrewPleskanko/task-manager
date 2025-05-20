@@ -16,6 +16,7 @@ import {UserProfileComponent} from "./pages/user-profile/user-profile.component"
 import {AdminComponent} from "./pages/admin/admin.component";
 import {TagsComponent} from "./pages/admin/tags/tags.component";
 import {UserStoriesComponent} from "./pages/user-stories/user-stories.component";
+import {TaskDetailsComponent} from "./pages/task-details/task-details.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -34,6 +35,7 @@ export const routes: Routes = [
   {path: 'charts', component: ChartsComponent},
   {path: 'profile/:id', component: UserProfileComponent},
   {path: 'user-stories', component: UserStoriesComponent},
+  {path: 'task-details', component: TaskDetailsComponent},
   {
     path: 'admin',
     component: AdminComponent,
