@@ -35,11 +35,5 @@ spring:
 jwt:
   secretKey: "${JWT_SECRET:s3cr3tK3y!@#123ABCdef$%^&*()_+|}{\":?><,./;'[]\\=-`~}"
 
-ai:
-  endpoint:
-    url: https://api.openai.com/v1/completions
-  api:
-    key: sk-your-openai-api-key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 server:
   port: 8087
