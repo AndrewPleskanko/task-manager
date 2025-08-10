@@ -27,13 +27,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<?> handleBaseAppException(BaseException e) {
+    public ResponseEntity<Map<String, String>> handleBaseAppException(BaseException e) {
         log.error("Handle application exception: {}", e.getMessage());
         HttpStatus httpStatus = e.getClass().getAnnotation(ResponseStatus.class).code();
 
-        return new ResponseEntity<>(e.getMessage(), httpStatus);
+        Map<String, String> error = new HashMap<>();
+        error.put("message", e.getMessage());
+        return new ResponseEntity<>(error, httpStatus);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -81,12 +89,5 @@ public class GlobalExceptionHandler {
         log.warn("Access Denied: {}", ex.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN.value(), "Access denied.");
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex) {
-        log.warn("User Already Exists: {}", ex.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }

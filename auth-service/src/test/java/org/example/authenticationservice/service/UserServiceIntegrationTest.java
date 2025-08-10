@@ -105,31 +105,30 @@ public class UserServiceIntegrationTest extends BaseServiceTest {
         RoleDto roleDto = new RoleDto("ROLE_USER_GetAllUsers");
         Role save = roleRepository.save(roleMapper.toEntity(roleDto));
         User user1 = new User("testUser1", "testPassword1",
-                "testUser1@gmail.com", roleMapper.toEntity(roleDto), "1234567890", 25, true);
+                "testUser1@gmail.com", save, "1234567890", 25, true);
         User user2 = new User("testUser2", "testPassword2",
                 "testUser2@gmail.com", save, "1234567890", 25, true);
+        userRepository.save(user1);
+        userRepository.save(user2);
 
         // When
         List<UserDto> users = userService.getAllUsers();
 
         // Then
-        assertEquals(4, users.size());
+        assertEquals(6, users.size());
     }
-
 
     @Test
     void getUserById_getsUserById_returnsUser() {
         // Given
-        RoleDto roleDto = new RoleDto("ROLE_USER_GetAllUsers");
-        Role save = roleRepository.save(roleMapper.toEntity(roleDto));
-        User user = new User("testUser", "testPassword", "testUser@gmail.com", save, "1234567890", 25, true);
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.findAll().getFirst();
         Long id = savedUser.getId();
 
         // When
         User result = userService.getUser(id);
 
         // Then
+        assertNotNull(result);
         assertEquals(savedUser.getId(), result.getId());
         assertEquals(savedUser.getUsername(), result.getUsername());
         assertEquals(savedUser.getEmail(), result.getEmail());

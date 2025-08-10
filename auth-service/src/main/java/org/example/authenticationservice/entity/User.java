@@ -73,6 +73,16 @@ public class User extends AbstractEntity implements UserDetails {
         this.role = role;
     }
 
+    public User(String username, String password, String email, Role role, String phone, int age, boolean status) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.phone = phone;
+        this.age = age;
+        this.status = status;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(role.getName()));

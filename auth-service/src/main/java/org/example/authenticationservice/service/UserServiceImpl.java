@@ -9,6 +9,7 @@ import org.example.authenticationservice.dto.UserDto;
 import org.example.authenticationservice.entity.Role;
 import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.EntityNotFoundException;
+import org.example.authenticationservice.exception.UserAlreadyExistsException;
 import org.example.authenticationservice.mapper.UserMapper;
 import org.example.authenticationservice.repository.UserRepository;
 import org.example.authenticationservice.service.interfaces.EmailEventService;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
         log.info("Starting createUser method with userDto: {}", userDto);
 
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            throw new IllegalArgumentException("User with the same username already exists");
+            throw new UserAlreadyExistsException();
         }
 
         User user = userMapper.toEntity(userDto);

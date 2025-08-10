@@ -203,7 +203,8 @@ public class ProjectService implements IProjectService {
         }
     }
 
-    private String processAiResponse(String aiResponse, List<Map<String, Object>> projectData, List<UserDto> users) throws JsonProcessingException {
+    private String processAiResponse(String aiResponse, List<Map<String, Object>> projectData,
+                                     List<UserDto> users) throws JsonProcessingException {
         List<UserAssignmentDto> userAssignments = objectMapper.readValue(
                 aiResponse,
                 objectMapper.getTypeFactory().constructCollectionType(List.class, UserAssignmentDto.class)

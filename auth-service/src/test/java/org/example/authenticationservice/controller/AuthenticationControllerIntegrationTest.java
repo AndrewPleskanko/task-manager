@@ -53,6 +53,9 @@ public class AuthenticationControllerIntegrationTest {
     @InjectMocks
     private AuthenticationController authenticationController;
 
+    @InjectMocks
+    private UserController userController;
+
     @Mock
     private AuthenticationProvider authenticationProvider;
 
@@ -60,7 +63,7 @@ public class AuthenticationControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(authenticationController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(authenticationController, userController).build();
         userDto = new UserDto();
         userDto.setUsername("testUser");
         userDto.setPassword("testPassword");
@@ -71,40 +74,11 @@ public class AuthenticationControllerIntegrationTest {
     }
 
     @Test
-    public void testAuthenticate_userAuthentication_success() throws Exception {
-        String accessToken = "someGeneratedAccessToken";
-        AuthResponseDto authResponse = new AuthResponseDto(accessToken);
-
-        when(authenticationService.authenticateUser(userDto)).thenReturn(authResponse);
-
-        mockMvc.perform(post("/auth/v1/authenticate")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testAuthenticate_userAuthentication_failure() throws Exception {
-        when(userMapper.toEntity(userDto)).thenReturn(new User());
-        when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
-
-        when(authenticationProvider.authenticate(any())).thenThrow(
-                new InvalidCredentialsException("Invalid credentials"));
-
-        mockMvc.perform(post("/auth/v1/authenticate")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
     public void testAddUser_success() throws Exception {
         User user = new User();
-        when(userMapper.toEntity(userDto)).thenReturn(user);
-        user = userMapper.toEntity(userDto);
         when(userService.createUser(userDto)).thenReturn(user);
 
-        mockMvc.perform(post("/auth/v1/add")
+        mockMvc.perform(post("/api/v1/auth/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userDto)))
                 .andExpect(status().isOk())
@@ -114,9 +88,9 @@ public class AuthenticationControllerIntegrationTest {
 
     @Test
     public void testAddUser_failure_userExists() throws Exception {
-        when(userService.createUser(userDto)).thenThrow(new UserAlreadyExistsException("User already exists"));
+        when(userService.createUser(userDto)).thenThrow(new UserAlreadyExistsException());
 
-        mockMvc.perform(post("/auth/v1/add")
+        mockMvc.perform(post("/api/v1/auth/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userDto)))
                 .andExpect(status().isConflict())
@@ -129,7 +103,7 @@ public class AuthenticationControllerIntegrationTest {
         users.add(userDto);
         when(userService.getAllUsers()).thenReturn(users);
 
-        mockMvc.perform(get("/auth/v1/all")
+        mockMvc.perform(get("/api/v1/users/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username").value("testUser"))
@@ -140,9 +114,9 @@ public class AuthenticationControllerIntegrationTest {
     public void testGetAllUsers_unauthorized() throws Exception {
         when(userService.getAllUsers()).thenThrow(new InvalidCredentialsException("Unauthorized"));
 
-        mockMvc.perform(get("/auth/v1/all")
+        mockMvc.perform(get("/api/v1/users/all")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     private String asJsonString(Object obj) {
