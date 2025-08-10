@@ -42,7 +42,7 @@ public class JwtUtils {
                     .getBody();
         } catch (JwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
-            return null;
+            return Jwts.claims();
         }
     }
 

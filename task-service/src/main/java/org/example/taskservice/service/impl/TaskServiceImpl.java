@@ -2,6 +2,7 @@ package org.example.taskservice.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -127,7 +128,7 @@ public class TaskServiceImpl implements TaskService {
 
             Status status;
             try {
-                status = Status.valueOf(newStatus.trim().toUpperCase());
+                status = Status.valueOf(newStatus.trim().toUpperCase(Locale.ENGLISH));
             } catch (IllegalArgumentException ex) {
                 throw new IllegalArgumentException("Invalid status value: " + newStatus);
             }

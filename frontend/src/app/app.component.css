@@ -35,7 +35,6 @@
 
 .sidebar-container {
   top: var(--header-height);
-  padding-bottom: 60px;
 }
 
 .content {

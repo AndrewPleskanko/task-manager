@@ -43,7 +43,7 @@ export class SidebarComponent {
     {
       title: 'Administration',
       items: [
-        {label: 'Users', path: '/admin/users'},
+        {label: 'Users', path: '/users'},
         {label: 'Tasks', path: '/admin/tasks'},
         {label: 'Tags', path: '/admin/tags'},
         {label: 'Settings', path: '/admin/settings'},

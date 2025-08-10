@@ -66,6 +66,6 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   cancel() {
-
+    return false;
   }
 }

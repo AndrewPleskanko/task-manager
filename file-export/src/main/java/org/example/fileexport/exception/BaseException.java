@@ -1,12 +1,13 @@
-package org.example.taskservice.exception;
+package org.example.fileexport.exception;
 
 import java.io.Serial;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 public class BaseException extends RuntimeException {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

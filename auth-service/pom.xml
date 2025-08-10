@@ -38,7 +38,7 @@
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <swagger.version>2.2.8</swagger.version>
-        <poi.version>5.3.0</poi.version>
+        <poi.version>5.4.0</poi.version>
         <jjwt.version>0.11.5</jjwt.version>
         <spring-boot-admin-client.version>3.4.5</spring-boot-admin-client.version>
     </properties>

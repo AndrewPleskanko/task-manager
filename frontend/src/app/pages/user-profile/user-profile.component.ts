@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserProfileService} from "./services/user-profile.service";
 import {User} from "../../entities/User";
-import {DatePipe} from "@angular/common";
 import {PipesModule} from "../../pipes/pipes.module";
 import {FormsModule} from "@angular/forms";
 
@@ -9,7 +8,6 @@ import {FormsModule} from "@angular/forms";
   selector: 'app-user-profile',
   standalone: true,
   imports: [
-    DatePipe,
     PipesModule,
     FormsModule
   ],
