@@ -1,5 +1,7 @@
 package org.example.taskservice.controller;
 
+import java.util.Locale;
+
 import org.example.taskservice.service.impl.TaskExportService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,7 +25,7 @@ public class TaskExportController {
         byte[] fileBytes = taskExportService.exportTasks(format);
 
         MediaType mediaType;
-        String fileName = switch (format.toLowerCase()) {
+        String fileName = switch (format.toLowerCase(Locale.ROOT)) {
             case "excel" -> {
                 mediaType = MediaType.parseMediaType(
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

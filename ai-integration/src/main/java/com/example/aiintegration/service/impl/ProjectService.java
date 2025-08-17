@@ -6,20 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.example.aiintegration.dto.AssignedTaskDto;
-import com.example.aiintegration.dto.UserAssignmentDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.example.aiintegration.client.TaskClient;
 import com.example.aiintegration.client.UserClient;
 import com.example.aiintegration.converter.ProjectConverter;
+import com.example.aiintegration.dto.AssignedTaskDto;
 import com.example.aiintegration.dto.TaskDto;
+import com.example.aiintegration.dto.UserAssignmentDto;
 import com.example.aiintegration.dto.UserDto;
 import com.example.aiintegration.entity.UserStory;
 import com.example.aiintegration.repository.UserStoryRepository;
@@ -36,10 +35,10 @@ public class ProjectService implements IProjectService {
 
     private final UserStoryRepository userStoryRepository;
     private final ObjectMapper objectMapper;
-    private final RestTemplate restTemplate = new RestTemplate();
     private final ProjectConverter projectConverter;
     private final TaskClient taskClient;
     private final UserClient userClient;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Value("${GEMINI_ENDPOINT_URL}")
     private String aiBaseEndpointUrl;
@@ -77,6 +76,7 @@ public class ProjectService implements IProjectService {
             throw new IllegalArgumentException("No users found for the project.");
         }
 
+        String resultJson;
         try {
             String projectDataJson = objectMapper.writeValueAsString(projectData);
             String usersJson = objectMapper.writeValueAsString(users);
@@ -99,7 +99,7 @@ public class ProjectService implements IProjectService {
 //                    response.getStatusCode(), response.getBody());
 //            return response.getBody();
 
-            return processAiResponse(
+            resultJson = processAiResponse(
                     "[\n" +
                             "  {\n" +
                             "    \"userId\": \"1\",\n" +
@@ -201,6 +201,12 @@ public class ProjectService implements IProjectService {
             log.error("Unexpected error during AI prompt processing or service call: {}", e.getMessage(), e);
             throw new RuntimeException("Unexpected error while processing AI data or calling the AI service.", e);
         }
+
+        String redisKey = "ai:project:" + projectId;
+        System.out.println("Storing AI response in Redis with key: " + redisKey);
+        redisTemplate.opsForValue().set(redisKey, resultJson);
+
+        return resultJson;
     }
 
     private String processAiResponse(String aiResponse, List<Map<String, Object>> projectData,

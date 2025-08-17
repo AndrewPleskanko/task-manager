@@ -27,10 +27,10 @@
         <url/>
     </scm>
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.release>21</maven.compiler.release>
-        <maven.compiler.enablePreview>true</maven.compiler.enablePreview>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.enablePreview>false</maven.compiler.enablePreview>
         <testcontainers.version>1.20.4</testcontainers.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <postgresql.version>42.7.4</postgresql.version>

@@ -13,7 +13,6 @@ import org.example.authenticationservice.entity.Role;
 import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.EntityNotFoundException;
 import org.example.authenticationservice.mapper.RoleMapper;
-import org.example.authenticationservice.mapper.UserMapper;
 import org.example.authenticationservice.repository.RoleRepository;
 import org.example.authenticationservice.repository.UserRepository;
 import org.example.authenticationservice.service.interfaces.UserService;
@@ -52,9 +51,6 @@ public class UserServiceIntegrationTest extends BaseServiceTest {
 
     @Autowired
     private RoleMapper roleMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     RoleDto roleUserDto;
 
@@ -121,7 +117,7 @@ public class UserServiceIntegrationTest extends BaseServiceTest {
     @Test
     void getUserById_getsUserById_returnsUser() {
         // Given
-        User savedUser = userRepository.findAll().getFirst();
+        User savedUser = userRepository.findAll().get(0);
         Long id = savedUser.getId();
 
         // When

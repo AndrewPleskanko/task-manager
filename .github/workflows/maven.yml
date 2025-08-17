@@ -40,7 +40,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-          # Build ai integration
+        # Build file-export module
+      - name: Build File Export Module with Maven
+        run: mvn -B install --file file-export/pom.xml
+        # Build ai integration
       - name: Build AI Integration Service with Maven
         run: mvn -B package --file ai-integration/pom.xml
         # Build task service
@@ -52,19 +55,6 @@ jobs:
         # Build mail service
       - name: Build Mail Service with Maven
         run: mvn -B package --file mail-sender/pom.xml
-
-  java-21:
-    name: Java Build (JDK 21)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-          # Build authorization service
+        # Build authorization service
       - name: Build Authorization Service with Maven
         run: mvn -B package --file auth-service/pom.xml
-

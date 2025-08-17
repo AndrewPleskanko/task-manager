@@ -3,6 +3,7 @@ package com.example.aiintegration.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.example.aiintegration.service.impl.AiService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 class AiController {
 
     private final IProjectService projectService;
+    private final AiService aiService;
 
     @PostMapping("/process/{projectId}")
     public ResponseEntity<String> processProjectData(@PathVariable Long projectId) {
@@ -50,5 +52,14 @@ class AiController {
         }
 
         return ResponseEntity.ok(userStories);
+    }
+
+    @GetMapping("/project/{projectId}/redis")
+    public ResponseEntity<String> getAiProjectRedisData(@PathVariable Long projectId) {
+        String data = aiService.getAiProjectData(projectId);
+        if (data == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(data);
     }
 }

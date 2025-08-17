@@ -27,7 +27,7 @@ ReportService uses these strategies, allowing for flexible report format output 
 - **Mapping:** MapStruct
 - **API Documentation:** Swagger, Javadoc
 - **Database Migrations:** Liquibase
-- **Database:** PostgreSQL, Elasticsearch
+- **Database:** PostgreSQL, Elasticsearch, Redis
 - **Message Broker:** Kafka
 - **Monitoring:** Kibana
 
@@ -45,14 +45,7 @@ ReportService uses these strategies, allowing for flexible report format output 
    mvn clean install
 ```
 
-3) Run project on Java
-
-```shell
-    cd block2
-    mvn spring-boot:run
-```
-
-4) Use VM options to set the database connection details
+3) Use VM options to set the database connection details
 
  ```copy
 -DDB_USERNAME=name
@@ -81,29 +74,10 @@ http://localhost:8080/swagger-ui.html
 ProfITsoft.postman_collection.json
 ```
 
-3) Build project
+## Architecture
 
-```shell
-   mvn clean install
-   
-   docker build -t mail-sender .
-   docker-compose up -d
-```
+![Architecture Diagram](docs/architecture.png)
 
-## Services Started
-
-This command will start the following services:
-
-- mail-sender: The Spring Boot application (available at http://localhost:8092)
-- elasticsearch: Elasticsearch database
-- kibana: Kibana for Elasticsearch (available at http://localhost:5601)
-- zookeeper: Apache ZooKeeper for Kafka
-- kafka: Apache Kafka message broker
-
-## Additional Notes
-
-The application uses port 8092 for the Spring Boot application, 9200 for Elasticsearch,
-5601 for Kibana, 2181 for ZooKeeper, and 9092 for Kafka.
-
+See `docs/architecture-diagram.png` for a visual overview.
 
 

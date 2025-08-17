@@ -17,7 +17,13 @@ export class PredictionService {
     const headers: HttpHeaders = this.headerService.getHeaders();
     return this.http.post<PredictedTasksByUser>(
       `${environment.apiUrl}/ai/process/1`,
-      {},
+      {}, {headers});
+  }
+
+  predictTasksForNextSprintWithUserId(projectId: number): Observable<string> {
+    const headers: HttpHeaders = this.headerService.getHeaders();
+    return this.http.get<string>(
+      `${environment.apiUrl}/ai/project/${projectId}/redis`,
       { headers }
     );
   }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PredictionService} from "./services/predicted-task.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {AssignedStory, PredictedTasksByUser} from "./models/assignment.models";
@@ -11,7 +11,7 @@ import Gantt from 'frappe-gantt';
   templateUrl: './ai.component.html',
   styleUrl: './ai.component.css'
 })
-export class AiComponent {
+export class AiComponent implements OnInit {
   @ViewChild('ganttContainer') ganttContainer!: ElementRef;
 
   showPrediction = false;
@@ -26,6 +26,10 @@ export class AiComponent {
   }[] = [];
 
   constructor(private predictionService: PredictionService) {
+  }
+
+  ngOnInit(): void {
+    this.getPredictedSprintData(1);
   }
 
   predictNextSprint(): void {
@@ -65,5 +69,18 @@ export class AiComponent {
 
   countTasks(assignedStories: AssignedStory[]): number {
     return assignedStories.reduce((acc, story) => acc + (story.tasks?.length || 0), 0);
+  }
+
+  getPredictedSprintData(projectId: number): void {
+    this.predictionService.predictTasksForNextSprintWithUserId(projectId).subscribe(
+      (data) => {
+
+        console.error('Predicted sprint data:', data);
+
+      },
+      (error) => {
+        console.error('Error fetching predicted sprint data:', error);
+      }
+    );
   }
 }
