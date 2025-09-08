@@ -31,7 +31,7 @@
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-        <jjwt.version>0.11.5</jjwt.version>
+        <jjwt.version>0.12.6</jjwt.version>
         <swagger.version>2.2.8</swagger.version>
         <spring-boot-admin-client.version>3.4.5</spring-boot-admin-client.version>
     </properties>
