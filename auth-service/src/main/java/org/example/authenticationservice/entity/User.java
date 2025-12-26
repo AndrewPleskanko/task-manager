@@ -3,6 +3,7 @@ package org.example.authenticationservice.entity;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -66,6 +68,9 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Column(name = "project_id")
     private Long projectId;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserProjectAudit> userProjectAudits;
 
     public User(String username, String password, Role role) {
         this.username = username;

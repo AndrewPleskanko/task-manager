@@ -37,4 +37,11 @@ export class TaskService {
     const headers = this.headerService.getHeaders();
     return this.http.delete<void>(`${environment.apiUrl}/tasks/${id}`, {headers});
   }
+
+
+  someTask(id: string): Observable<string[]> {
+    const headers = this.headerService.getHeaders();
+    return this.http.get<string[]>(`${environment.apiUrl}/users/${id}/projects-audit`, {headers});
+  }
+
 }

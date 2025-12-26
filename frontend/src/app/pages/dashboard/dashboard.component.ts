@@ -90,4 +90,15 @@ export class DashboardComponent implements OnInit {
       );
     }
     }
+
+  someDo() {
+    this.taskService.someTask('1').subscribe(
+      () => {
+        console.error('Some task completed successfully');
+      },
+      error => {
+        console.error('Error performing some task:', error);
+      }
+    );
+  }
 }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.example.authenticationservice.dto.EmailMessageDto;
 import org.example.authenticationservice.dto.UserDto;
+import org.example.authenticationservice.dto.UserProjectAuditInfoDto;
 import org.example.authenticationservice.entity.Role;
 import org.example.authenticationservice.entity.User;
 import org.example.authenticationservice.exception.EntityNotFoundException;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final ObjectMapper objectMapper;
     private final EmailEventService kafkaProducer;
     private final RoleService roleService;
+    private final org.example.authenticationservice.repository.UserProjectAuditRepository userProjectAuditRepository;
 
     @Value(value = "${kafka.topic.email.service}")
     private String emailServiceTopicName;
@@ -228,4 +230,20 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    public List<UserProjectAuditInfoDto> getUserProjectsWithAudit(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return userProjectAuditRepository.findByUser(user).stream()
+                .map(audit -> {
+                    UserProjectAuditInfoDto dto = new UserProjectAuditInfoDto();
+                    dto.setProjectName(audit.getProject().getName());
+                    dto.setCreatedAt(audit.getCreatedAt());
+                    dto.setUpdatedAt(audit.getUpdatedAt());
+                    dto.setCreatedBy(audit.getCreatedBy());
+                    dto.setUpdatedBy(audit.getUpdatedBy());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

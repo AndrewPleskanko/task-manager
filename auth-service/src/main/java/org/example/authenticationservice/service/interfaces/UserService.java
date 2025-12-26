@@ -3,6 +3,7 @@ package org.example.authenticationservice.service.interfaces;
 import java.util.List;
 
 import org.example.authenticationservice.dto.UserDto;
+import org.example.authenticationservice.dto.UserProjectAuditInfoDto;
 import org.example.authenticationservice.entity.User;
 
 public interface UserService {
@@ -25,4 +26,6 @@ public interface UserService {
     UserDto getAuthenticatedUser();
 
     List<UserDto> findByProjectId(Long projectId);
+
+    List<UserProjectAuditInfoDto> getUserProjectsWithAudit(Long userId);
 }

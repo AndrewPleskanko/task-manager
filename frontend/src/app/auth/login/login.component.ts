@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserService} from "../../global-services/user.service";
 import {User} from "../../entities/User";
-import {ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from "@angular/common";
-import {environment} from "../../environment/environment";
 
 interface OAuthResponse {
   accessToken: string;
@@ -71,10 +69,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    window.location.href = `${environment.apiUrl}/oauth2/authorization/google`;
+    window.location.href = `http://localhost:8080/oauth2/authorization/google`;
   }
 
   loginWithGithub() {
-    window.location.href = `${environment.apiUrl}/oauth2/authorization/github`;
+    window.location.href = `http://localhost:8080/oauth2/authorization/github`;
   }
 }

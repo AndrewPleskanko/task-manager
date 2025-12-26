@@ -3,7 +3,9 @@ package org.example.authenticationservice.controller;
 import java.util.List;
 
 import org.example.authenticationservice.dto.UserDto;
+import org.example.authenticationservice.dto.UserProjectAuditInfoDto;
 import org.example.authenticationservice.entity.User;
+import org.example.authenticationservice.entity.UserProjectAudit;
 import org.example.authenticationservice.service.interfaces.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,5 +71,10 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getUsersByProjectId(@PathVariable Long projectId) {
         List<UserDto> users = userService.findByProjectId(projectId);
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{userId}/projects-audit")
+    public ResponseEntity<List<UserProjectAuditInfoDto>> getUserProjectsAudit(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserProjectsWithAudit(userId));
     }
 }
