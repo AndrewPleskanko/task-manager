@@ -21,12 +21,12 @@ public class EmailEventProducerImpl implements EmailEventService {
      * Sends an email event to a specified Kafka topic.
      *
      * @param topic the Kafka topic to send the event to
-     * @param data the email event data
+     * @param data  the email event data
      */
     @Override
     public void sendEmailEvent(String topic, String data) {
         log.info("Sending email event to topic: {}", topic);
         kafkaTemplate.send(topic, data);
-        log.info("Email event sent successfully");
+        log.debug("Email event sent successfully");
     }
 }
